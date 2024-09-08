@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 2 - Setting Up OS Emulator\\CSOPESY-S16_Group5_HW2.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CSOPESY-S16_Group5_HW2.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 2 - Setting Up OS Emulator\\CSOPESY-S16_Group5_HW2.cpp",
+              "RelativeDocumentMoniker": "..\\Homework 2 - Setting Up OS Emulator\\CSOPESY-S16_Group5_HW2.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 2 - Setting Up OS Emulator\\CSOPESY-S16_Group5_HW2.cpp",
+              "RelativeToolTip": "..\\Homework 2 - Setting Up OS Emulator\\CSOPESY-S16_Group5_HW2.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-08T07:35:30.068Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
