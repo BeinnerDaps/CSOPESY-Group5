@@ -11,17 +11,24 @@ void displayHeader() {
     std::cout << "*************************************************************************************" << std::endl;
     std::cout << "*    _______    _______     ________  _________   __________   _______  __      __  *" << std::endl;
     std::cout << "*   //======\\  //======\\   //======\\\\ \\=======\\\\  \\=========  //======\\  %\\    //   *" << std::endl;
-    std::cout << "*  //*         []          11      11  11      ||  11         []          %\\  //    *" << std::endl;
-    std::cout << "*  []*         \\\\_______   11      11  11      ||  11######   \\\\_______    %\\//     *" << std::endl;
-    std::cout << "*  &]*          ^######\\\\  #1      11  11######7   11          ^######\\\\    11      *" << std::endl;
-    std::cout << "*  %&$                 //  #&      11  #1          11_______          //    #1      *" << std::endl;
-    std::cout << "*   %&$####%7  \\%######7   %&######7/  ##         /#########  \\%######7    /##      *" << std::endl;
+    std::cout << "*  //*         []          11      11  [[      ||  11         []          %\\  //    *" << std::endl;
+    std::cout << "*  []*         \\\\_______   [[      11  [[      ||  11######   \\\\_______    %\\//     *" << std::endl;
+    std::cout << "*  []*          ^######\\\\  [[      11  11######7   11          ^######\\\\    11      *" << std::endl;
+    std::cout << "*  \\&\\                 //  11      11  #1          11_______          //    #1      *" << std::endl;
+    std::cout << "*   \\&#####%7  \\%######7   \\&######7/  ##         /#########  \\%######7     ##      *" << std::endl;
 	std::cout << "*___________________________________________________________________________________*" << std::endl;
     std::cout << "*************************************************************************************" << std::endl;
     std::cout << "Welcome to the Serial OS!" << std::endl;
 	std::cout << "By: CSOPESY_S16 - Group 5" << std::endl;
-    std::cout << "\nType 'exit' to terminate, 'clear' to clear the terminal" << std::endl;
-    std::cout << "Commands: initialize, screen, scheduler-test, scheduler-stop, report-util, clear, exit"<< std::endl;
+    std::cout << "\nType 'exit' to terminate, 'clear' to clear the terminal\n" << std::endl;
+    std::cout << "Available Commands:" << std::endl;
+    std::cout << "  initialize" << std::endl;
+    std::cout << "  screen" << std::endl;
+    std::cout << "  scheduler-test" << std::endl;
+    std::cout << "  scheduler-stop" << std::endl;
+    std::cout << "  report-util" << std::endl;
+    std::cout << "  clear" << std::endl;
+    std::cout << "  exit" << std::endl;
     std::cout << "\nEnter a command: " << std::endl;
 }
 
