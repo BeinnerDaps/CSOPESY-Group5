@@ -21,6 +21,7 @@ void displayHeader() {
     std::cout << "Welcome to the Serial OS!" << std::endl;
 	std::cout << "By: CSOPESY_S16 - Group 5" << std::endl;
     std::cout << "\nType 'exit' to terminate, 'clear' to clear the terminal\n" << std::endl;
+
     std::cout << "Available Commands:" << std::endl;
     std::cout << "  initialize" << std::endl;
     std::cout << "  screen" << std::endl;
@@ -29,14 +30,10 @@ void displayHeader() {
     std::cout << "  report-util" << std::endl;
     std::cout << "  clear" << std::endl;
     std::cout << "  exit" << std::endl;
+
     std::cout << "\nEnter a command: " << std::endl;
 }
 
-/*
-Return Value: None
-Parameters: None
-Description: Clears the screen, accounting for Windows and Linux.
-*/
 void clearScreen() {
     #ifdef _WIN32
         system("CLS");

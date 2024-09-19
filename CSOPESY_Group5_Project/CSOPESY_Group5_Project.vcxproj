@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Homework 2 - Setting Up OS Emulator\CSOPESY-S16_Group5_HW2.cpp" />
+    <ClCompile Include="CSOPESY-S16_Group5.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

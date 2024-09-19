@@ -3,8 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\checkversion.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:checkversion.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:CSOPESY-S16_Group5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +22,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "checkversion.cpp",
-              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\checkversion.cpp",
-              "RelativeDocumentMoniker": "checkversion.cpp",
-              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\checkversion.cpp",
-              "RelativeToolTip": "checkversion.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
+              "Title": "CSOPESY-S16_Group5.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
+              "RelativeDocumentMoniker": "CSOPESY-S16_Group5.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
+              "RelativeToolTip": "CSOPESY-S16_Group5.cpp",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEwAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-10T08:51:08.086Z",
+              "WhenOpened": "2024-09-19T10:23:50.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "boilerPlate.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp",
+              "RelativeDocumentMoniker": "..\\Homework 3 - Console Layout\\boilerPlate.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp",
+              "RelativeToolTip": "..\\Homework 3 - Console Layout\\boilerPlate.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-19T10:08:42.841Z",
               "EditorCaption": ""
             }
           ]
