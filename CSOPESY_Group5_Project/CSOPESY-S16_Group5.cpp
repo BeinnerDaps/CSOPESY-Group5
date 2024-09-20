@@ -40,27 +40,18 @@ void clearScreen() {
     #endif
 }
 
-void initializeCommand() {
-    std::cout << "initialize command recognized. Doing something." << std::endl;
+void rSubCommand(const std::string& command) {
+    std::cout << "Executing screen -r " << command << std::endl;
+    return;
+}
+
+void sSubCommand(const std::string& command) {
+    std::cout << "Executing screen -s " << command << std::endl;
+    return;
 }
 
 void screenCommand(const std::string& command) { 
     std::string subCommand, name;
-
-    std::vector<std::string> subCommands = { "-r", "-s" };
-    bool found = false;
-     
-    for (const auto& option : subCommands) {
-        if (command.find(option) != std::string::npos) {
-            found = true; break;
-        }
-    }
-
-    if (!found) {
-        std::cout << "ERROR: Invalid Subcommand" << std::endl;
-        return;
-    }
-
     std::istringstream iss(command);
     iss >> subCommand >> subCommand >> name;
     if (name.empty()) {
@@ -68,12 +59,18 @@ void screenCommand(const std::string& command) {
         return;
     }
 
-    if (subCommand == "-r") {
-        
+    std::vector<std::string> subCommands = { "-r", "-s" };
+    int found = -1;
+    for (size_t i = 0; i < subCommands.size(); ++i) {
+        if (subCommand == subCommands[i]) {
+            found = i; break;
+        }
     }
 
-    if (subCommand == "-s") {
-        
+    switch (found) {
+        case 0: rSubCommand(name); break;
+        case 1: sSubCommand(name); break;
+        default: std::cout << "ERROR: Invalid Subcommand" << std::endl; break;
     }
 }
 
