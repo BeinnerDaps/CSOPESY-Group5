@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <cstdlib> // For clearing functionality
 
 
@@ -52,6 +53,8 @@ void sSubCommand(const std::string& command) {
 
 void screenCommand(const std::string& command) { 
     std::string subCommand, name;
+    std::vector<std::string> subCommands = { "-r", "-s" };
+
     std::istringstream iss(command);
     iss >> subCommand >> subCommand >> name;
     if (name.empty()) {
@@ -59,13 +62,8 @@ void screenCommand(const std::string& command) {
         return;
     }
 
-    std::vector<std::string> subCommands = { "-r", "-s" };
-    int found = -1;
-    for (size_t i = 0; i < subCommands.size(); ++i) {
-        if (subCommand == subCommands[i]) {
-            found = i; break;
-        }
-    }
+    auto it = std::find(subCommands.begin(), subCommands.end(), subCommand);
+    int found = (it != subCommands.end()) ? std::distance(subCommands.begin(), it) : -1;
 
     switch (found) {
         case 0: rSubCommand(name); break;
