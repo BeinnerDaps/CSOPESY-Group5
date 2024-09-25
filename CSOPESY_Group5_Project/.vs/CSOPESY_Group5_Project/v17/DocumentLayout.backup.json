@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Commands.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Commands.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Data.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Screen.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Screen.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:CSOPESY-S16_Group5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8067BC0E-FAB5-4EBC-859E-B624BD4C3541}|CSOPESY_Group5_Project.vcxproj|solutionrelative:Data.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
@@ -17,32 +41,112 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CSOPESY-S16_Group5.cpp",
-              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
-              "RelativeDocumentMoniker": "CSOPESY-S16_Group5.cpp",
-              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
-              "RelativeToolTip": "CSOPESY-S16_Group5.cpp",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAAEAAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-19T10:23:50.426Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "boilerPlate.cpp",
               "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp",
               "RelativeDocumentMoniker": "..\\Homework 3 - Console Layout\\boilerPlate.cpp",
               "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\Homework 3 - Console Layout\\boilerPlate.cpp",
               "RelativeToolTip": "..\\Homework 3 - Console Layout\\boilerPlate.cpp",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAA0AAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACwAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-19T10:08:42.841Z"
+              "WhenOpened": "2024-09-23T08:16:07.318Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CSOPESY-S16_Group5.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
+              "RelativeDocumentMoniker": "CSOPESY-S16_Group5.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\CSOPESY-S16_Group5.cpp",
+              "RelativeToolTip": "CSOPESY-S16_Group5.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABIAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-23T08:15:25.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Commands.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.cpp",
+              "RelativeDocumentMoniker": "Commands.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.cpp",
+              "RelativeToolTip": "Commands.cpp",
+              "ViewState": "AgIAACoAAAAAAAAAAAAUwCAAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-25T06:16:06.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Data.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.cpp",
+              "RelativeDocumentMoniker": "Data.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.cpp",
+              "RelativeToolTip": "Data.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-25T07:09:33.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Screen.cpp",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.cpp",
+              "RelativeDocumentMoniker": "Screen.cpp",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.cpp",
+              "RelativeToolTip": "Screen.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwAgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-24T10:03:37.815Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Commands.h",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.h",
+              "RelativeDocumentMoniker": "Commands.h",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Commands.h",
+              "RelativeToolTip": "Commands.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-09-25T06:10:55.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Data.h",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.h",
+              "RelativeDocumentMoniker": "Data.h",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Data.h",
+              "RelativeToolTip": "Data.h",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAUwBsAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-09-25T06:57:43.774Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Screen.h",
+              "DocumentMoniker": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.h",
+              "RelativeDocumentMoniker": "Screen.h",
+              "ToolTip": "C:\\Users\\Bien Rafael\\OneDrive\\Documents\\De Lasalle University\\4th year - TERM 1\\CSOPESY\\CSOPESY-Group5\\CSOPESY_Group5_Project\\Screen.h",
+              "RelativeToolTip": "Screen.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-09-24T10:01:14.149Z",
+              "EditorCaption": ""
             }
           ]
         }

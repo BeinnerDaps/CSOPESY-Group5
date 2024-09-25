@@ -1,118 +1,26 @@
+// MAIN
+
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <algorithm>
 #include <cstdlib> // For clearing functionality
 
-
-void displayHeader() {
-    std::cout << "*************************************************************************************" << std::endl;
-    std::cout << "*    _______    _______     ________  _________   __________   _______  __      __  *" << std::endl;
-    std::cout << "*   //======\\  //======\\   //======\\\\ \\=======\\\\  \\=========  //======\\  %\\    //   *" << std::endl;
-    std::cout << "*  //*         []          11      11  [[      ||  11         []          %\\  //    *" << std::endl;
-    std::cout << "*  []*         \\\\_______   [[      11  [[      ||  11######   \\\\_______    %\\//     *" << std::endl;
-    std::cout << "*  []*          ^######\\\\  [[      11  11######7   11          ^######\\\\    11      *" << std::endl;
-    std::cout << "*  \\&\\                 //  11      11  #1          11_______          //    #1      *" << std::endl;
-    std::cout << "*   \\&#####%7  \\%######7   \\&######7/  ##         /#########  \\%######7     ##      *" << std::endl;
-    std::cout << "*___________________________________________________________________________________*" << std::endl;
-    std::cout << "*************************************************************************************" << std::endl;
-    std::cout << "Welcome to the Serial OS!" << std::endl;
-    std::cout << "By: CSOPESY_S16 - Group 5" << std::endl;
-    std::cout << "\nType 'exit' to terminate, 'clear' to clear the terminal\n" << std::endl;
-
-    std::cout << "Available Commands:" << std::endl;
-    // std::cout << "  initialize" << std::endl;
-    std::cout << "  screen" << std::endl;
-    std::cout << "  scheduler-test" << std::endl;
-    std::cout << "  scheduler-stop" << std::endl;
-    std::cout << "  report-util" << std::endl;
-    std::cout << "  clear" << std::endl;
-    std::cout << "  exit" << std::endl;
-
-    std::cout << "\nEnter a command: " << std::endl;
-}
-
-void clearScreen() {
-    #ifdef _WIN32
-        system("CLS");
-    #else
-        system("clear");
-    #endif
-}
-
-void rSubCommand(const std::string& command) {
-    std::cout << "Executing screen -r " << command << std::endl;
-    return;
-}
-
-void sSubCommand(const std::string& command) {
-    std::cout << "Executing screen -s " << command << std::endl;
-    return;
-}
-
-void screenCommand(const std::string& command) { 
-    std::string subCommand, name;
-    std::vector<std::string> subCommands = { "-r", "-s" };
-
-    std::istringstream iss(command);
-    iss >> subCommand >> subCommand >> name;
-    if (name.empty()) {
-        std::cout << "ERROR: Process Not Specified" << std::endl;
-        return;
-    }
-
-    auto it = std::find(subCommands.begin(), subCommands.end(), subCommand);
-    int found = (it != subCommands.end()) ? std::distance(subCommands.begin(), it) : -1;
-
-    switch (found) {
-        case 0: rSubCommand(name); break;
-        case 1: sSubCommand(name); break;
-        default: std::cout << "ERROR: Invalid Subcommand" << std::endl; break;
-    }
-}
-
-void schedulerTestCommand() {
-    std::cout << "scheduler-test command recognized. Doing something." << std::endl;
-}
-
-void schedulerStopCommand() {
-    std::cout << "scheduler-stop command recognized. Doing something." << std::endl;
-}
-
-void reportUtilCommand() {
-    std::cout << "report-util command recognized. Doing something." << std::endl;
-}
-
-void processCommand(const std::string& command) {
-    if (command.find("screen") != std::string::npos) {
-        screenCommand(command);
-    } else if (command == "scheduler-test") {
-        schedulerTestCommand();
-    } else if (command == "scheduler-stop") {
-        schedulerStopCommand();
-    } else if (command == "report-util") {
-        reportUtilCommand();
-    } else if (command == "clear") {
-        clearScreen(); displayHeader();
-    } else if (command == "exit") {
-        std::cout << "Terminating Serial OS, Thank you!" << std::endl;
-        exit(0);
-    } else {
-        std::cout << "ERROR: Unrecognized command." << std::endl;
-    }
-}
+#include "Data.h"
+#include "Screen.h"
+#include "Commands.h"
+Data data;
+Screen screen;
+Commands commands;
 
 int main() {
     std::string command;
-    clearScreen();  displayHeader();
 
     // Main loop to continuously take in commands, until exit.
     while (true) {
         std::cout << "> ";
         std::getline(std::cin, command);
-
-        processCommand(command);
+        commands.processCommand(command);
     }
 
     return 0;
