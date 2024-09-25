@@ -142,10 +142,10 @@ void screenLoop(const std::string& name, bool isNested = false) {
 }
 
 int main() {
+    printHeader();
+    showCommands();
     std::string command;
-    while (programRunning) {
-        printHeader();
-        showCommands();
+    while (programRunning) {       
         std::cout << "Enter command: ";
         std::getline(std::cin, command);
 
