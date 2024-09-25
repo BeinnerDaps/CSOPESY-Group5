@@ -120,6 +120,7 @@ void screenLoop(const std::string& name, bool isNested = false) {
     while (active && programRunning) {
         std::cout << "Screen " << name << " - Enter command ('exit' to return to main menu): ";
         std::getline(std::cin, command);
+
         if (command == "exit") {
             active = false;
             insideScreen = false;
@@ -129,13 +130,8 @@ void screenLoop(const std::string& name, bool isNested = false) {
             }
         }
         else if (command == "screen" || command.rfind("screen ", 0) == 0) {
-            std::string result = handleScreenCommand(command);
-            if (result != "ScreenError") {
-                insideScreen = true;
-                // nested screens are screens opened within a prior screen
-                screenLoop(result, true);  // Pass true to indicate nested screen
-                active = false;  // Exit the current screen loop when a nested screen opens
-            }
+            // Prevent screen commands within a screen
+            std::cout << "Unknown command: " << command << std::endl;
         }
         else {
             std::cout << "Processing command: " << command << std::endl;
@@ -146,11 +142,10 @@ void screenLoop(const std::string& name, bool isNested = false) {
 }
 
 int main() {
-    printHeader();
-    showCommands();
-
     std::string command;
     while (programRunning) {
+        printHeader();
+        showCommands();
         std::cout << "Enter command: ";
         std::getline(std::cin, command);
 
@@ -161,10 +156,15 @@ int main() {
             std::cout << "Marquee command recognized. Doing something." << std::endl;
         }
         else if (command == "screen" || command.rfind("screen ", 0) == 0) {
-            std::string result = handleScreenCommand(command);
-            if (result != "ScreenError") {
-                insideScreen = true;
-                screenLoop(result);  // Switch control to the main loop of the screen (this is our semi-spinlock)
+            if (insideScreen) {
+                // Prevent screen commands if inside another screen
+                std::cout << "Unknown command: " << command << std::endl;
+            } else {
+                std::string result = handleScreenCommand(command);
+                if (result != "ScreenError") {
+                    insideScreen = true;
+                    screenLoop(result);  // Switch control to the main loop of the screen
+                }
             }
         }
         else if (command == "process-smi") {
