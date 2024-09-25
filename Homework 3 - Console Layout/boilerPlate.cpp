@@ -13,6 +13,7 @@ struct ProcessScreen {
     std::string processName;
     int currentLine;
     int totalLine;
+    int linesOfCode;  // New field for total lines of code
     std::string timestamp;
 };
 
@@ -62,6 +63,7 @@ void showCommands() {
 void displayProcessScreen(const ProcessScreen& ps) {
     std::cout << "Process name: " << ps.processName << std::endl;
     std::cout << "Current line of instruction: " << ps.currentLine << "/" << ps.totalLine << std::endl;
+    std::cout << "Lines of Code: " << ps.linesOfCode << std::endl;  // Displaying the total lines of code
     std::cout << "Timestamp: " << ps.timestamp << std::endl;
 }
 
@@ -82,7 +84,7 @@ std::string handleScreenCommand(const std::string& command) {
         auto it = processScreens.find(name);
         if (subCommand == "-s") {
             if (it == processScreens.end()) {
-                ProcessScreen ps{ name, 0, 100, getCurrentTimestamp() };
+                ProcessScreen ps{ name, 0, 100, 500, getCurrentTimestamp() };  // Default total lines of code is 500
                 processScreens[name] = ps;
                 clearScreen(false);
                 std::cout << "Created new screen for process: " << name << std::endl;
@@ -142,10 +144,10 @@ void screenLoop(const std::string& name, bool isNested = false) {
 }
 
 int main() {
-    printHeader();
-    showCommands();
     std::string command;
-    while (programRunning) {       
+    while (programRunning) {
+        printHeader();
+        showCommands();
         std::cout << "Enter command: ";
         std::getline(std::cin, command);
 
