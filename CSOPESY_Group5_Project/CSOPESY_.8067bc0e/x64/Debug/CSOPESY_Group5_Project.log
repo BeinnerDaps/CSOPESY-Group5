@@ -1,3 +1,51 @@
-﻿  CSOPESY-S16_Group5.cpp
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\CSOPESY-S16_Group5.cpp(65,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-  CSOPESY_Group5_Project.vcxproj -> C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\x64\Debug\CSOPESY_Group5_Project.exe
+﻿  Commands.cpp
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
+  (compiling source file 'Commands.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'Commands.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'Commands.cpp')
+  
+  CSOPESY-S16_Group5.cpp
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
+  (compiling source file 'CSOPESY-S16_Group5.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'CSOPESY-S16_Group5.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'CSOPESY-S16_Group5.cpp')
+  
+  Data.cpp
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
+  (compiling source file 'Data.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'Data.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
+  (compiling source file 'Data.cpp')
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(35,9): error C2660: 'Screen::rsScreenView': function does not take 1 arguments
+      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,10):
+      see declaration of 'Screen::rsScreenView'
+      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(35,9):
+      while trying to match the argument list '(ProcessInfo)'
+  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(50,9): error C2660: 'Screen::rsScreenView': function does not take 1 arguments
+      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,10):
+      see declaration of 'Screen::rsScreenView'
+      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(50,9):
+      while trying to match the argument list '(_Ty)'
+          with
+          [
+              _Ty=ProcessInfo
+          ]
+  
+  Screen.cpp
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.h(20,20): error C2504: 'Screen': base class undefined
+  (compiling source file 'Screen.cpp')
+  
+  Generating Code...
