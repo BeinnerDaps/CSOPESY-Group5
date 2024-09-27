@@ -30,14 +30,20 @@ std::string getCurrentTimestamp() {
 
 void printHeader() {
     std::cout << R"(
- _______  _______  _______  _______  _______  _______  __   __ 
-|       ||       ||       ||       ||       ||       ||  | |  |
-|       ||  _____||   _   ||    _  ||    ___||  _____||  |_|  |
-|       || |_____ |  | |  ||   |_| ||   |___ | |_____ |       |
-|      _||_____  ||  |_|  ||    ___||    ___||_____  ||_     _|
-|     |_  _____| ||       ||   |    |   |___  _____| |  |   |  
-|_______||_______||_______||___|    |_______||_______|  |___| 
-    )" << std::endl;
+*************************************************************************************
+*    _______    _______     ________  _________   __________   _______  __      __  *
+*   //======\  //======\   //======\\ \=======\\  \=========  //======\  %\    //   *
+*  //*         []          11      11  [[      ||  11         []          %\  //    *
+*  []*         \\_______   [[      11  [[      ||  11######   \\_______    %\//     *
+*  []*          ^######\\  [[      11  11######7   11          ^######\\    11      *
+*  \&\                 //  11      11  #1          11_______          //    #1      *
+*   \&#####%7  \%######7   \&######7/  ##         /#########  \%######7     ##      *
+*___________________________________________________________________________________*
+*************************************************************************************
+    
+Welcome to the Serial OS!
+By: CSOPESY_S16 - Group 5
+)" << std::endl;
 }
 
 void clearScreen(bool shouldPrintHeader = true) {
@@ -106,6 +112,7 @@ std::string handleScreenCommand(const std::string& command) {
                 return "ScreenError";
             }
         }
+        return "ScreenError";
     }
     else {
         std::cout << "Invalid screen command format." << std::endl;
@@ -127,9 +134,7 @@ void screenLoop(const std::string& name, bool isNested = false) {
             active = false;
             insideScreen = false;
             clearScreen();
-            if (!isNested) {
-                showCommands();
-            }
+            showCommands();
         }
         else if (command == "screen" || command.rfind("screen ", 0) == 0) {
             // Prevent screen commands within a screen
