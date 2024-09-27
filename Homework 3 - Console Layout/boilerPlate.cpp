@@ -29,13 +29,20 @@ std::string getCurrentTimestamp() {
 
 void printHeader() {
     std::cout << R"(
- _______  _______  _______  _______  _______  _______  __   __ 
-|       ||       ||       ||       ||       ||       ||  | |  |
-|       ||  _____||   _   ||    _  ||    ___||  _____||  |_|  |
-|       || |_____ |  | |  ||   |_| ||   |___ | |_____ |       |
-|      _||_____  ||  |_|  ||    ___||    ___||_____  ||_     _|
-|     |_  _____| ||       ||   |    |   |___  _____| |  |   |  
-|_______||_______||_______||___|    |_______||_______|  |___| 
+    *************************************************************************************
+    *    _______    _______     ________  _________   __________   _______  __      __  *
+    *   //======\  //======\   //======\\ \=======\\  \=========  //======\  %\    //   *
+    *  //*         []          11      11  [[      ||  11         []          %\  //    *
+    *  []*         \\_______   [[      11  [[      ||  11######   \\_______    %\//     *
+    *  []*          ^######\\  [[      11  11######7   11          ^######\\    11      *
+    *  \&\                 //  11      11  #1          11_______          //    #1      *
+    *   \&#####%7  \%######7   \&######7/  ##         /#########  \%######7     ##      *
+    *___________________________________________________________________________________*
+    *************************************************************************************
+    Welcome to the Serial OS!
+    By: CSOPESY_S16 - Group 5
+
+    Type 'exit' to terminate, 'clear' to clear the terminal
     )" << std::endl;
 }
 
@@ -47,16 +54,17 @@ void clearScreen(bool shouldPrintHeader = true) {
 }
 
 void showCommands() {
-    std::cout << "Available commands:\n"
-        << "  marquee      - Does something for marquee\n"
-        << "  screen       - Starts a new window within the screen\n"
-        << "               - -s <name>: It will start a new screen given a name\n"
-        << "               - -r <name>: Will reattach a previous screen\n"
-        << "  process-smi  - Does something for process-smi\n"
-        << "  nvidia-smi   - Does something for nvidia-smi\n"
-        << "  clear        - Clears the screen\n"
-        << "  exit         - Exits the program\n"
-        << "  ?            - Shows this list of commands\n";
+    std::cout << R"(
+    Available Commands:
+      screen            - Starts a new window within the screen
+                        - -s <name>: It will start a new screen given a name
+                        - -r <name>: Will reattach a previous screen
+      scheduler-test    - Does something for scheduler-test
+      scheduler-stop    - Does something for scheduler-stop
+      report-util       - Does something for report-util
+      clear             - Does something for scheduler-test
+      exit              - exit 
+    )" << std::endl;
 }
 
 void displayProcessScreen(const ProcessScreen& ps) {
