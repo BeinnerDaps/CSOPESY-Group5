@@ -4,15 +4,17 @@
 
 #include "Data.h"
 #include "Screen.h"
+#include "Marquee.h"
 
-
-#include <iostream>
-#include <vector>
-#include <sstream>
+#include <chrono>
 #include <functional>
-#include <unordered_map>
+#include <iostream>
+#include <sstream>
 #include <string>
-
+#include <thread>
+#include <unordered_map>
+#include <vector>
+using namespace std;
 
 class Commands {
 
@@ -24,11 +26,14 @@ public:
 
     Commands() {}
 
+    //  Method to execute a marquee process
+    void marqueeCommand();
+
     // Method for processing commands
-    void processCommand(const std::string& command);
+    void processCommand(const string& command);
 
     // Method to process screen commands
-    void screenCommand(const std::string& command);
+    void screenCommand(const string& command);
     
     //  Method to process scheduler test commands
     void schedulerTestCommand();

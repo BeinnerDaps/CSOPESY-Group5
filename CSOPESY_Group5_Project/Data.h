@@ -12,7 +12,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+using namespace std;
 
 class Data {
 
@@ -21,29 +21,29 @@ public:
     
     // Struct containing process information
     struct ProcessInfo {
-        std::string processName;
+        string processName;
         int currentLine;
         int totalLine;
-        std::string timeStamp;
+        string timeStamp;
     };
 
     // List of processes
-    std::vector<ProcessInfo> processList;
+    vector<ProcessInfo> processList;
 
     // Method to get a specific process
-    std::optional<ProcessInfo> getProcess(const std::string& processName) const;
+    optional<ProcessInfo> getProcess(const string& name) const;
 
     // Method to create a new process
-    std::optional<ProcessInfo> createProcess(const std::string& processName);
+    optional<ProcessInfo> createProcess(const string& name);
 
     // Method to list all processes
-    const std::vector<ProcessInfo>& listAllProcess() const;
+    const vector<ProcessInfo>& listAllProcess() const;
 
     // Method to update processes
     void updateProcess(const int processcount);
 
     // Method to get current time
-    std::string getTime();
+    string getTime();
 };
 
 #endif

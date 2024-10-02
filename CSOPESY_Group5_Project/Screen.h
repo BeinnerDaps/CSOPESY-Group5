@@ -8,12 +8,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
 
 class Screen {
 
 private:
 
-const std::string banner = R"(
+const string banner = R"(
     *************************************************************************************
     *    _______    _______     ________  _________   __________   _______  __      __  *
     *   //======\  //======\   //======\\ \=======\\  \=========  //======\  %\    //   *
@@ -30,7 +31,7 @@ const std::string banner = R"(
     Type 'exit' to terminate, 'clear' to clear the terminal
     )";
 
-const std::string commandList = R"(
+const string commandList = R"(
     Available Commands:
         marquee         - Does something for marquee
         screen          - Starts a new window within the screen
@@ -43,7 +44,7 @@ const std::string commandList = R"(
         exit            - exits program
 )";
 
-const std::string prompt = R"(
+const string prompt = R"(
 Enter a command : 
 )";
 
@@ -51,24 +52,27 @@ public:
 
     Screen(){}
 
-    std::vector<std::function<void()>> screen;
+    vector<function<void()>> screen;
 
-    std::string currentScreen = "menuView";
-    std::string previousScreen = "";
+    string currentScreen = "menuView";
+    string previousScreen = "";
 
-    const std::string getCurrent() const { return currentScreen; }
+    const string getCurrent() const { return currentScreen; }
 
     // Method to update screen
-    void updateScreen(const std::string& newScreen);
+    void updateScreen(const string& newScreen);
 
     // Method to display main menu screen
     void menuView();
+
+    // Method to display marquee screen
+    void marqueeView(int x, int y, const string& value);
 
     // Method to display -r/-s commands screen
     void rsScreenView(const Data::ProcessInfo& process);
 
     // Method to display -ls command screen
-    void lsScreenView(const std::vector<Data::ProcessInfo>& processList);
+    void lsScreenView(const vector<Data::ProcessInfo>& processList);
 
     // Method to clear the screen
     void clearScreen() const;

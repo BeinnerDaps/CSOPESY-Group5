@@ -4,33 +4,33 @@
 
 
 // Get Specific Process through ProcessName
-std::optional<Data::ProcessInfo> Data::getProcess(const std::string& name) const {
-    auto it = std::find_if(processList.begin(), processList.end(), [&](const ProcessInfo& process) {
+optional<Data::ProcessInfo> Data::getProcess(const string& name) const {
+    auto it = find_if(processList.begin(), processList.end(), [&](const ProcessInfo& process) {
         return process.processName == name;
     });
 
-    return (it != processList.end()) ? std::optional<ProcessInfo>(*it) : std::nullopt;
+    return (it != processList.end()) ? optional<ProcessInfo>(*it) : nullopt;
 }
 
 
 // Create a new Process
-std::optional<Data::ProcessInfo> Data::createProcess(const std::string& name) {
-    auto it = std::find_if(processList.begin(), processList.end(), [&](ProcessInfo& process) {
+optional<Data::ProcessInfo> Data::createProcess(const string& name) {
+    auto it = find_if(processList.begin(), processList.end(), [&](ProcessInfo& process) {
         return process.processName == name;
     });
 
     if (it == processList.end()) {
-        processList.emplace_back(name, processList.size() + 1, processList.size() + 1, getTime());
+        processList.emplace_back(name, processList.size()+1, processList.size()+1, getTime());
         updateProcess(processList.size());
         return processList.back();
     } else {
-        return std::nullopt;
+        return nullopt;
     }
 }
 
 
 // List All Processes
-const std::vector<Data::ProcessInfo>& Data::listAllProcess() const {
+const vector<Data::ProcessInfo>& Data::listAllProcess() const {
     return processList;
 }
 
@@ -42,11 +42,11 @@ void Data::updateProcess(const int processcount) {
 
 
 // Get Timestamp
-std::string Data::getTime() {
-    std::time_t now = std::time(nullptr);
-    std::tm ltm{};
+string Data::getTime() {
+    time_t now = time(nullptr);
+    tm ltm{};
     localtime_s(&ltm, &now);
-    std::stringstream ss;
+    stringstream ss;
     ss << std::put_time(&ltm, "%m/%d/%Y, %I:%M:%S %p");
     return ss.str();
 }

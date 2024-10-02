@@ -1,10 +1,10 @@
 // VIEW
 
 #include "Screen.h"
-#include "Data.h"
+
 
 // Method to update screen
-void Screen::updateScreen(const std::string& newScreen) {
+void Screen::updateScreen(const string& newScreen) {
     if (currentScreen != newScreen) {
         previousScreen = currentScreen;
         currentScreen = newScreen;
@@ -16,32 +16,40 @@ void Screen::updateScreen(const std::string& newScreen) {
 // Method to display main menu screen
 void Screen::menuView() {
     updateScreen("menuView");
-    std::cout << banner;
-    std::cout << commandList;
-    std::cout << prompt;
+    cout << banner;
+    cout << commandList;
+    cout << prompt;
+}
+
+
+// Method to display marquee screen
+void Screen::marqueeView(int x, int y, const string& value) {
+    updateScreen("marqueeView");
+    cout << "\033[" << y << ";" << x << "H";
+    cout << value;
 }
 
 
 // Method to display -r/-s commands screen
 void Screen::rsScreenView(const Data::ProcessInfo& process) {
     updateScreen("rsScreenView");
-    std::cout << "Process Name: " << process.processName << std::endl;
-    std::cout << "Current Line: " << process.currentLine << std::endl;
-    std::cout << "Total Lines: " << process.totalLine << std::endl;
-    std::cout << "Timestamp: " << process.timeStamp << std::endl;
+    cout << "Process Name: " << process.processName << endl;
+    cout << "Current Line: " << process.currentLine << endl;
+    cout << "Total Lines: " << process.totalLine << endl;
+    cout << "Timestamp: " << process.timeStamp << endl;
 }
 
 
 // Method to display -ls command screen
 void Screen::lsScreenView(const std::vector<Data::ProcessInfo>& processList) {
     updateScreen("lsScreenView");
-    if (!processList.size()) { std::cout << "Nothing here but us chickens" << std::endl; }
+    if (!processList.size()) { cout << "Nothing here but us chickens" << endl; }
     for (const auto& process : processList) { 
-        std::cout << "Process Name: " << process.processName << std::endl;
-        std::cout << "Current Line: " << process.currentLine << std::endl;
-        std::cout << "Total Lines: " << process.totalLine << std::endl;
-        std::cout << "Timestamp: " << process.timeStamp << std::endl;
-        std::cout << "==============================================" << std::endl;
+        cout << "Process Name: " << process.processName << endl;
+        cout << "Current Line: " << process.currentLine << endl;
+        cout << "Total Lines: " << process.totalLine << endl;
+        cout << "Timestamp: " << process.timeStamp << endl;
+        cout << "==============================================" << endl;
     }
 }
 
