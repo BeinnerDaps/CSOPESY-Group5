@@ -31,10 +31,10 @@ public:
     vector<ProcessInfo> processList;
 
     // Method to get a specific process
-    optional<ProcessInfo> getProcess(const string& name) const;
+    optional<ProcessInfo> getProcess(const string& processName) const;
 
     // Method to create a new process
-    optional<ProcessInfo> createProcess(const string& name);
+    optional<ProcessInfo> createProcess(const string& processName);
 
     // Method to list all processes
     const vector<ProcessInfo>& listAllProcess() const;

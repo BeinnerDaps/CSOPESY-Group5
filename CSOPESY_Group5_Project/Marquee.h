@@ -3,8 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include <windows.h>
 using namespace std;
+
+// Citation: https://stackoverflow.com/questions/61514117/i-made-a-moving-screensaver-in-c-console-but-there-is-a-bug-when-it-hits-the-c
 
 class Marquee {
 

@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <cstdlib> // For clearing functionality
+#include <cstdlib>
+using namespace std;
 
 #include "Data.h"
 #include "Screen.h"
@@ -15,12 +16,12 @@ int main() {
     screen.menuView();
 
     Commands commands;
-    std::string command;
+    string command;
     
     // Main loop to continuously take in commands, until exit.
     while (true) {
-        std::cout << "> ";
-        std::getline(std::cin, command);
+        cout << "> ";
+        getline(std::cin, command);
         commands.processCommand(command);
     }
 

@@ -36,7 +36,7 @@ void Marquee::editMarquee() {
 }
 
 void Marquee::getTerminalSize(int& rows, int& cols) {
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    /*CONSOLE_SCREEN_BUFFER_INFO csbi;
     int ret = GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     if (ret) {
         cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
@@ -44,5 +44,5 @@ void Marquee::getTerminalSize(int& rows, int& cols) {
     } else {
         cols = 80;
         rows = 25;
-    }
+    }*/
 }
