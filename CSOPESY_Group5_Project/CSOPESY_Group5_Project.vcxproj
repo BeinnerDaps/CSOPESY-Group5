@@ -22,11 +22,13 @@
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="CSOPESY-S16_Group5.cpp" />
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Marquee.cpp" />
     <ClCompile Include="Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Marquee.h" />
     <ClInclude Include="Screen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
