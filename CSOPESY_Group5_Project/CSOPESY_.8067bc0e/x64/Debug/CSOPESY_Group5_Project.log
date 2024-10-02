@@ -1,51 +1,63 @@
 ﻿  Commands.cpp
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
-  (compiling source file 'Commands.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'Commands.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'Commands.cpp')
-  
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Commands.cpp(50,15): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
   CSOPESY-S16_Group5.cpp
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
-  (compiling source file 'CSOPESY-S16_Group5.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'CSOPESY-S16_Group5.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'CSOPESY-S16_Group5.cpp')
-  
   Data.cpp
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(12,22): error C2504: 'Data': base class undefined
+C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(24,39): warning C4267: 'argument': conversion from 'size_t' to 'const int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(389,75): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'Data.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'Data.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(33,23): error C2061: syntax error: identifier 'ProcessInfo'
-  (compiling source file 'Data.cpp')
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(35,9): error C2660: 'Screen::rsScreenView': function does not take 1 arguments
-      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,10):
-      see declaration of 'Screen::rsScreenView'
-      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(35,9):
-      while trying to match the argument list '(ProcessInfo)'
-  
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(50,9): error C2660: 'Screen::rsScreenView': function does not take 1 arguments
-      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Screen.h(30,10):
-      see declaration of 'Screen::rsScreenView'
-      C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(50,9):
-      while trying to match the argument list '(_Ty)'
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(389,75):
+      the template instantiation context (the oldest one first) is
+          C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.cpp(23,21):
+          see reference to function template instantiation 'Data::ProcessInfo &std::vector<Data::ProcessInfo,std::allocator<Data::ProcessInfo>>::emplace_back<const std::string&,unsigned __int64,unsigned __int64,std::string>(const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::string &&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\vector(858,24):
+          see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&)' being compiled
           with
           [
-              _Ty=ProcessInfo
+              _Ty=Data::ProcessInfo
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\vector(776,20):
+          see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&)' being compiled
+          with
+          [
+              _Ty=Data::ProcessInfo
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\vector(794,27):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(_Alloc &,_Objty *const ,const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<Data::ProcessInfo>,
+              _Ty=Data::ProcessInfo,
+              _Objty=Data::ProcessInfo
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xmemory(698,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Objty,const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(_Ty *const ,const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&) noexcept(<expr>)' being compiled
+          with
+          [
+              _Ty=Data::ProcessInfo,
+              _Objty=Data::ProcessInfo
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(390,90): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'Data.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(390,90):
+      the template instantiation context (the oldest one first) is
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\vector(794,27):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(_Alloc &,_Objty *const ,const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<Data::ProcessInfo>,
+              _Ty=Data::ProcessInfo,
+              _Objty=Data::ProcessInfo
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xmemory(698,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Objty,const std::string&,unsigned __int64,unsigned __int64,std::basic_string<char,std::char_traits<char>,std::allocator<char>>>(_Ty *const ,const std::string &,unsigned __int64 &&,unsigned __int64 &&,std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Data::ProcessInfo,
+              _Objty=Data::ProcessInfo
           ]
   
   Screen.cpp
-C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\Data.h(20,20): error C2504: 'Screen': base class undefined
-  (compiling source file 'Screen.cpp')
-  
   Generating Code...
+  LINK : C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\x64\Debug\CSOPESY_Group5_Project.exe not found or not built by the last incremental link; performing full link
+  CSOPESY_Group5_Project.vcxproj -> C:\Users\Bien Rafael\OneDrive\Documents\De Lasalle University\4th year - TERM 1\CSOPESY\CSOPESY-Group5\CSOPESY_Group5_Project\x64\Debug\CSOPESY_Group5_Project.exe

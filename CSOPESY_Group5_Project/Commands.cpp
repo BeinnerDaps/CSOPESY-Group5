@@ -14,7 +14,7 @@ void Commands::processCommand(const std::string& input) {
         { "scheduler-test", [this](const std::string&) { schedulerTestCommand(); } },
         { "scheduler-stop", [this](const std::string&) { schedulerStopCommand(); } },
         { "report-util", [this](const std::string&) {  reportUtilCommand(); } },
-        { "clear", [this](const std::string&) {  screen.menuView(); } },
+        { "clear", [this](const std::string&) {  screen.clearScreen() }},
         { "exit", [this](const std::string&) {  exitCommand(); } },
     };
 
