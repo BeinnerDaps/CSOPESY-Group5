@@ -1,73 +1,48 @@
 // MODEL
 
-#include <algorithm>
-#include <iostream>
-#include <ctime>
-#include <iomanip>
-#include <sstream>
-#include <vector>
-#include <unordered_map>
-
 #include "Data.h"
-#include "Screen.h"
-
-void Data::getMenu() {
-    menuView(banner, commandList, prompt);
-}
-
-
-void Data::exitOut() {
-    if (currentScreen != "menuView") {
-        getMenu();
-    } else {
-        exit(0);
-    }
-}
 
 
 // Get Specific Process through ProcessName
-void Data::getProcess(const std::string& processName) {
-    auto it = std::find_if(processList.begin(), processList.end(), [&](ProcessInfo& process) {
-        return process.processName == processName;
+std::optional<Data::ProcessInfo> Data::getProcess(const std::string& name) const {
+    auto it = std::find_if(processList.begin(), processList.end(), [&](const ProcessInfo& process) {
+        return process.processName == name;
     });
 
-    if (it != processList.end()) {
-        rsScreenView(*it);
-    } else { 
-        std::cout << "ERROR: Process '" << processName << "' not found. Enter valid processes." << std::endl; 
-    }
+    return (it != processList.end()) ? std::optional<ProcessInfo>(*it) : std::nullopt;
 }
 
 
 // Create a new Process
-void Data::createProcess(const std::string& processName) {
+std::optional<Data::ProcessInfo> Data::createProcess(const std::string& name) {
     auto it = std::find_if(processList.begin(), processList.end(), [&](ProcessInfo& process) {
-        return process.processName == processName;
+        return process.processName == name;
     });
 
     if (it == processList.end()) {
-        processList.emplace_back(processName, 1, 100, getTimestamp());
-        rsScreenView(processList.back());
+        processList.emplace_back(name, processList.size() + 1, processList.size() + 1, getTime());
+        updateProcess(processList.size());
+        return processList.back();
     } else {
-        std::cout << "ERROR: Process with the name '" << processName << "' already exists." << std::endl;
+        return std::nullopt;
     }
 }
 
 
 // List All Processes
-void Data::listAllProcess() {
-    return;
+const std::vector<Data::ProcessInfo>& Data::listAllProcess() const {
+    return processList;
 }
 
 
 // Update a process
-//ProcessInfo& Data::updateProcess() {
-//    return ;
-//}
+void Data::updateProcess(const int processcount) {
+    for (auto& process : processList) { process.totalLine = processcount; }
+}
 
 
 // Get Timestamp
-std::string Data::getTimestamp() const {
+std::string Data::getTime() {
     std::time_t now = std::time(nullptr);
     std::tm ltm{};
     localtime_s(&ltm, &now);

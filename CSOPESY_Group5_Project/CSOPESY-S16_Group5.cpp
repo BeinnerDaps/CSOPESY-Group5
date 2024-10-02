@@ -11,10 +11,12 @@
 #include "Commands.h"
 
 int main() {
+    Screen screen;
+    screen.menuView();
+
     Commands commands;
-
     std::string command;
-
+    
     // Main loop to continuously take in commands, until exit.
     while (true) {
         std::cout << "> ";

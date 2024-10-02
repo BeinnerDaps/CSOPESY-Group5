@@ -3,15 +3,26 @@
 #define COMMANDS_H
 
 #include "Data.h"
+#include "Screen.h"
 
+
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <functional>
+#include <unordered_map>
 #include <string>
 
 
-class Commands: protected Data {
+class Commands {
 
+private:
+    Data data;
+    Screen screen;
+ 
 public:
 
-    Commands(){}
+    Commands() {}
 
     // Method for processing commands
     void processCommand(const std::string& command);
@@ -27,6 +38,9 @@ public:
 
     //  Method to process report util commands
     void reportUtilCommand();
+
+    //  Method to exit out screen
+    void exitCommand();
 };
 
 #endif
