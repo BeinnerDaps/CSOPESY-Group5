@@ -1,17 +1,32 @@
 #ifndef MARQUEE_H
 #define MARQUEE_H
 
+#include <chrono>
+#include <conio.h>
 #include <iostream>
+#include <mutex>
 #include <string>
+#include <thread>
 using namespace std;
 
-// Citation: https://stackoverflow.com/questions/61514117/i-made-a-moving-screensaver-in-c-console-but-there-is-a-bug-when-it-hits-the-c
+#include "Screen.h"
 
-class Marquee {
+// Reference used: https://stackoverflow.com/questions/61514117/i-made-a-moving-screensaver-in-c-console-but-there-is-a-bug-when-it-hits-the-c
+
+class Marquee: public Screen {
 
 private:
+
+    mutex textMutex;                // Mutex to synchronize access to text
+    string text = "*Marquee*";
+    string pollinput = "";
+
+    bool run;
+    int refreshRate;
+    int pollRate;
+
     int width = 100;
-    int height = 30;
+    int height = 20;
 
     int Xpos = rand() % width + 1;
     int Ypos = rand() % height + 1;
@@ -21,21 +36,31 @@ private:
     
     int prevX = 0;
     int prevY = 0;
+
+    const string martitle = R"(
+                            ********************************************
+                            *              Marquee Screen              *
+                            ********************************************
+    )";
  
 public:
 
-    Marquee() {}
+    Marquee(int refresh, int poll, bool start) : refreshRate(refresh), pollRate(poll), run(start) {}
+
+    // Method for starting marquee thread
+    void start();
+
+    // Method for looping marquee thread
+    void marqueeLoop();
 
     // Method for writing marquee on screen 
-    void writeMarquee() const;
+    void writeMarquee();
 
     // Method for moving marquee position
     void moveMarquee();
 
     // Method for changing marquee text
     void editMarquee();
-
-    void getTerminalSize(int& height, int& width);
 };
 
 #endif

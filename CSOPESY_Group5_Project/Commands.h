@@ -27,7 +27,7 @@ public:
     Commands() {}
 
     //  Method to execute a marquee process
-    void marqueeCommand();
+    void marqueeCommand(const string& command);
 
     // Method for processing commands
     void processCommand(const string& command);

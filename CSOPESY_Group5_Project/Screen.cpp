@@ -23,10 +23,8 @@ void Screen::menuView() {
 
 
 // Method to display marquee screen
-void Screen::marqueeView(int x, int y, const string& value) {
+void Screen::marqueeView() {
     updateScreen("marqueeView");
-    cout << "\033[" << y << ";" << x << "H";
-    cout << value;
 }
 
 

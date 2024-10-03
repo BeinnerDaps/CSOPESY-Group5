@@ -16,13 +16,13 @@ int main() {
     screen.menuView();
 
     Commands commands;
-    string command;
+    string input;
     
     // Main loop to continuously take in commands, until exit.
     while (true) {
         cout << "> ";
-        getline(std::cin, command);
-        commands.processCommand(command);
+        getline(cin, input);
+        commands.processCommand(input);
     }
 
     return 0;

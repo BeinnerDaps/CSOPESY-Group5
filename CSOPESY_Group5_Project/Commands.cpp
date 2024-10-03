@@ -4,13 +4,12 @@
 
 Data data;
 Screen screen;
-Marquee marquee;
 
 
 // Method for processing commands
 void Commands::processCommand(const string& input) {
     const std::unordered_map<string, function<void(const string&)>> CommandActions = {
-        { "marquee", [this](const string&) { marqueeCommand(); } },
+        { "marquee", [this](const string& input) { marqueeCommand(input); } },
         { "screen", [this](const string& input) { screenCommand(input); } },
         { "scheduler-test", [this](const string&) { schedulerTestCommand(); } },
         { "scheduler-stop", [this](const string&) { schedulerStopCommand(); } },
@@ -35,17 +34,22 @@ void Commands::processCommand(const string& input) {
 
 
 //  Method to execute a marquee process
-void Commands::marqueeCommand() {
+void Commands::marqueeCommand(const string& command) {
     bool run = true;
 
-    while (run) {
-        marquee.moveMarquee();
-        screen.clearScreen();
-        marquee.writeMarquee();
-        this_thread::sleep_for(chrono::milliseconds(500));
-    }
-}
+    istringstream iss(command);
+    string text;
+    int refresh = 0, poll = 0;
+    iss >> text >> refresh >> poll;
 
+    if (!refresh) { refresh = 50; } // Default refresh rate
+    if (!poll) { poll = 50; } // Default poll rate
+
+    Marquee marquee(refresh, poll, true);
+
+    screen.marqueeView();
+    marquee.start();
+}
 
 // Method to process screen commands
 void Commands::screenCommand(const string& command) {
@@ -71,7 +75,7 @@ void Commands::screenCommand(const string& command) {
         case 0: rs(data.getProcess(name), "ERROR: Process '" + name + "' not found."); break;
         case 1: rs(data.createProcess(name), "ERROR: Process '" + name + "' already exists."); break;
         case 2: screen.lsScreenView(data.listAllProcess());  break;
-        default: cout << "ERROR: Invalid Subcommand"; break;
+        default: cout << "ERROR: Invalid Subcommand" << endl; break;   
     }
 }
 

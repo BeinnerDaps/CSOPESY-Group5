@@ -25,18 +25,19 @@ const string banner = R"(
     *   \&#####%7  \%######7   \&######7/  ##         /#########  \%######7     ##      *
     *___________________________________________________________________________________*
     *************************************************************************************
+
     Welcome to the Serial OS!
     By: CSOPESY_S16 - Group 5
-
-    Type 'exit' to terminate, 'clear' to clear the terminal
     )";
 
 const string commandList = R"(
     Available Commands:
-        marquee         - Does something for marquee
+
+        marquee         - Makes a marquee program  (optional: <refresh rate> <poll rate>)
         screen          - Starts a new window within the screen
                         - -s <name>: start a new screen given a name
                         - -r <name>: open a currently existing screen
+                        - -ls : lists all screen processes
         scheduler-test  - Does something for scheduler-test
         scheduler-stop  - Does something for scheduler-stop
         report-util     - Does something for report-util
@@ -54,10 +55,10 @@ public:
 
     vector<function<void()>> screen;
 
-    string currentScreen = "menuView";
+    string currentScreen = "";
     string previousScreen = "";
 
-    const string getCurrent() const { return currentScreen; }
+    string getCurrent() { return currentScreen; }
 
     // Method to update screen
     void updateScreen(const string& newScreen);
@@ -66,7 +67,7 @@ public:
     void menuView();
 
     // Method to display marquee screen
-    void marqueeView(int x, int y, const string& value);
+    void marqueeView();
 
     // Method to display -r/-s commands screen
     void rsScreenView(const Data::ProcessInfo& process);
