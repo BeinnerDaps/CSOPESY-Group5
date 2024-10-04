@@ -18,8 +18,9 @@ class Marquee: public Screen {
 private:
 
     mutex textMutex;                // Mutex to synchronize access to text
-    string text = "*Marquee*";
     string pollinput = "";
+
+    vector<string> chatHistory = { "*Marquee*" };
 
     bool run;
     int refreshRate;
@@ -48,10 +49,13 @@ public:
     Marquee(int refresh, int poll, bool start) : refreshRate(refresh), pollRate(poll), run(start) {}
 
     // Method for starting marquee thread
-    void start();
+    void startThread();
+
+    // Method for starting a non threaded marquee
+    void startNonThread();
 
     // Method for looping marquee thread
-    void marqueeLoop();
+    void marqueeLoop(bool loop);
 
     // Method for writing marquee on screen 
     void writeMarquee();
@@ -60,7 +64,7 @@ public:
     void moveMarquee();
 
     // Method for changing marquee text
-    void editMarquee();
+    void editMarquee(bool loop);
 };
 
 #endif

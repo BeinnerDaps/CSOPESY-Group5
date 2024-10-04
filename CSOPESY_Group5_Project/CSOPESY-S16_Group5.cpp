@@ -17,7 +17,7 @@ int main() {
 
     Commands commands;
     string input;
-    
+
     // Main loop to continuously take in commands, until exit.
     while (true) {
         cout << "> ";

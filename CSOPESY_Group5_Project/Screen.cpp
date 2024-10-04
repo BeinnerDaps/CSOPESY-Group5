@@ -51,6 +51,42 @@ void Screen::lsScreenView(const std::vector<Data::ProcessInfo>& processList) {
     }
 }
 
+void Screen::printProcesses(const vector<Data::ProcessInfo>& processes) {
+    updateScreen("nvidiaSMIview");
+    stringstream ss;
+
+    ss << smiheader;
+    ss << smitable;
+
+    for (const auto& process : processes) {
+        string temp = textCuttOff(process.processName, 36);
+        ss << "|    0   N/A   N/A      ";
+        ss.width(6); ss << left << process.pid << "  ";
+        ss.width(5); ss << left << process.type << "   ";
+        ss << temp;
+        if (temp.length() < 47) {
+            ss.width(37 - temp.length()); ss << " ";
+        }
+        else {
+            ss << "  ";
+        }
+        ss.width(1); ss << left << process.gpuMemoryUsage;
+        ss.width(6); ss << " ";
+        ss << "|" << endl;
+    }
+
+    ss << "+-------------------------------------------------------------------------------------+" << endl;
+
+    
+    smioutput = ss.str();
+
+    cout << smioutput << endl;
+}
+
+string Screen::textCuttOff(const string& pName, const size_t maxlen) {
+    return (pName.length() > maxlen) ? pName.substr(0, maxlen - 3).append("...") : pName;
+}
+
 
 // Method to clear the screen
 void Screen::clearScreen() const {

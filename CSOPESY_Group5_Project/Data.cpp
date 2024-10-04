@@ -46,7 +46,11 @@ string Data::getTime() {
     time_t now = time(nullptr);
     tm ltm{};
     localtime_s(&ltm, &now);
+
+    const char* daysOfWeek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    string day = daysOfWeek[ltm.tm_wday];
+
     stringstream ss;
-    ss << std::put_time(&ltm, "%m/%d/%Y, %I:%M:%S %p");
+    ss << day << ", " << std::put_time(&ltm, "%m/%d/%Y, %I:%M:%S %p");
     return ss.str();
 }

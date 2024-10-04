@@ -2,19 +2,27 @@
 
 #include "Marquee.h"
 
-void Marquee::start() {
-    thread marqueeThread(&Marquee::marqueeLoop, this);
-    thread inputThread(&Marquee::editMarquee, this);
+void Marquee::startThread() {
+    thread marqueeThread(&Marquee::marqueeLoop, this, true);
+    thread inputThread(&Marquee::editMarquee, this, true);
 
     marqueeThread.join();
     inputThread.join();
 }
 
-void Marquee::marqueeLoop() {
+void Marquee::startNonThread() {
+    while (run) {
+        marqueeLoop(false);
+        editMarquee(false);
+    }
+}
+
+void Marquee::marqueeLoop(bool loop) {
     while (run) {
         moveMarquee();
         writeMarquee();
         this_thread::sleep_for(chrono::milliseconds(refreshRate));
+        if (!loop) { break; }
     }
 }
 
@@ -32,10 +40,14 @@ void Marquee::writeMarquee() {
             if ((y == 0 && x == 0) || (y == 0 && x == width + 1) || (y == height + 1 && x == 0) || (y == height + 1 && x == width + 1)) { buffer << "+"; }
             else if (y == 0 || y == height + 1) { buffer << "-"; }
             else if (x == 0 || x == width + 1) { buffer << "|"; }
-            else if (x == Xpos && y == Ypos) { x += (int)(text.length()) - 1; buffer << text; }
+            else if (x == Xpos && y == Ypos) { x += (int)(chatHistory.back().length()) - 1; buffer << chatHistory.back(); }
             else { buffer << " "; }
         }
         buffer << endl;
+    }
+
+    for (size_t i = 1; i < chatHistory.size(); ++i) {
+        buffer << "\nEntered marquee text: " << chatHistory[i];
     }
     buffer << "\nEnter new marquee text (type 'exit' to stop): " << pollinput;
     cout << buffer.str();
@@ -44,7 +56,7 @@ void Marquee::writeMarquee() {
 
 // Method for moving marquee position
 void Marquee::moveMarquee() {
-    if (Xpos == 1 || Xpos == width - ((int)(text.length()) - 1)) { curX = (prevX == RIGHT) ? LEFT : RIGHT; } // 0 is leftward direction
+    if (Xpos == 1 || Xpos == width - ((int)(chatHistory.back().length()) - 1)) { curX = (prevX == RIGHT) ? LEFT : RIGHT; } // 0 is leftward direction
     if (Ypos == 1 || Ypos == height) { curY = (prevY == DOWN) ? UP : DOWN; } // 0 is upward direction
     
     Xpos = (curX == LEFT) ? Xpos - 1 : Xpos + 1;
@@ -56,7 +68,7 @@ void Marquee::moveMarquee() {
 
 
 // Method for changing marquee text
-void Marquee::editMarquee() { 
+void Marquee::editMarquee(bool loop) { 
     char key;
     while (run) {
         key = _getch();
@@ -71,7 +83,7 @@ void Marquee::editMarquee() {
                 pollinput += ' ';
                 break;
             case '\r':  // Enter Key
-                if (pollinput == "exit") { run = false; menuView();} else { text = pollinput; }
+                if (pollinput == "exit") { run = false; } else { chatHistory.push_back(pollinput); }
                 pollinput = "";
                 break;
             default:
@@ -79,5 +91,6 @@ void Marquee::editMarquee() {
                 break;
         }
         this_thread::sleep_for(chrono::milliseconds(pollRate));
+        if (!loop) { break; }
     }
 }

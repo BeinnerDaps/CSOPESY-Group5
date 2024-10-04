@@ -18,13 +18,16 @@ class Data {
 
 public:
     Data() {}
-    
+
     // Struct containing process information
     struct ProcessInfo {
         string processName;
         int currentLine;
         int totalLine;
         string timeStamp;
+        int pid;
+        string type;
+        string gpuMemoryUsage;
     };
 
     // List of processes
