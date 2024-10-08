@@ -1,4 +1,4 @@
-﻿// VIEW
+﻿// VIEW - SCREEN
 
 #include "Screen.h"
 

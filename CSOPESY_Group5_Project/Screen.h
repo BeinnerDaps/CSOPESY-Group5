@@ -1,4 +1,5 @@
-// Screen.h
+// VIEW - Screen.h
+
 #ifndef SCREEN_H
 #define SCREEN_H
 

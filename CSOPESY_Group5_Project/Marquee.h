@@ -1,4 +1,6 @@
-﻿#ifndef MARQUEE_H
+﻿// MODEL - Marquee.h
+
+#ifndef MARQUEE_H
 #define MARQUEE_H
 
 #include <chrono>
