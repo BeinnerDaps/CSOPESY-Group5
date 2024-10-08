@@ -1,4 +1,4 @@
-// VIEW
+﻿// VIEW
 
 #include "Screen.h"
 
@@ -16,6 +16,7 @@ void Screen::updateScreen(const string& newScreen) {
 // Method to display main menu screen
 void Screen::menuView() {
     updateScreen("menuView");
+
     cout << banner;
     cout << commandList;
     cout << prompt;
@@ -31,6 +32,7 @@ void Screen::marqueeView() {
 // Method to display -r/-s commands screen
 void Screen::rsScreenView(const Data::ProcessInfo& process) {
     updateScreen("rsScreenView");
+
     cout << "Process Name: " << process.processName << endl;
     cout << "Current Line: " << process.currentLine << endl;
     cout << "Total Lines: " << process.totalLine << endl;
@@ -41,7 +43,9 @@ void Screen::rsScreenView(const Data::ProcessInfo& process) {
 // Method to display -ls command screen
 void Screen::lsScreenView(const std::vector<Data::ProcessInfo>& processList) {
     updateScreen("lsScreenView");
+
     if (!processList.size()) { cout << "Nothing here but us chickens" << endl; }
+
     for (const auto& process : processList) { 
         cout << "Process Name: " << process.processName << endl;
         cout << "Current Line: " << process.currentLine << endl;
@@ -51,7 +55,9 @@ void Screen::lsScreenView(const std::vector<Data::ProcessInfo>& processList) {
     }
 }
 
-void Screen::printProcesses(const vector<Data::ProcessInfo>& processes) {
+
+// Method to display Nvidia SMI Interface
+void Screen::nvidiaSMIView(const vector<Data::ProcessInfo>& processes) {
     updateScreen("nvidiaSMIview");
     stringstream ss;
 
@@ -64,12 +70,8 @@ void Screen::printProcesses(const vector<Data::ProcessInfo>& processes) {
         ss.width(6); ss << left << process.pid << "  ";
         ss.width(5); ss << left << process.type << "   ";
         ss << temp;
-        if (temp.length() < 47) {
-            ss.width(37 - temp.length()); ss << " ";
-        }
-        else {
-            ss << "  ";
-        }
+        if (temp.length() < 47) { ss.width(37 - temp.length()); ss << " ";}
+        else { ss << "  ";}
         ss.width(1); ss << left << process.gpuMemoryUsage;
         ss.width(6); ss << " ";
         ss << "|" << endl;
@@ -77,25 +79,26 @@ void Screen::printProcesses(const vector<Data::ProcessInfo>& processes) {
 
     ss << "+-------------------------------------------------------------------------------------+" << endl;
 
-    
-    smioutput = ss.str();
-
-    cout << smioutput << endl;
+    cout << ss.str() << endl;
 }
 
+
+// Returns string trimmed to fit dimensions
 string Screen::textCuttOff(const string& pName, const size_t maxlen) {
-    return (pName.length() > maxlen) ? pName.substr(0, maxlen - 3).append("...") : pName;
+    return (pName.length() > maxlen) ? "..." + pName.substr(pName.length() - (maxlen - 3)) : pName;
 }
 
 
 // Method to clear the screen
 void Screen::clearScreen() const {
-#ifdef _WIN32
-    system("CLS");
-#else
-    system("clear");
-#endif
+    #ifdef _WIN32
+        system("CLS");
+    #else
+        system("clear");
+    #endif
 }
+
+
 
 //void Screen::screenLoop(const std::string& name, bool isNested = false) {
 //    std::string command;

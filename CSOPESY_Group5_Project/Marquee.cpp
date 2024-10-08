@@ -2,6 +2,8 @@
 
 #include "Marquee.h"
 
+
+// Method for starting marquee thread
 void Marquee::startThread() {
     thread marqueeThread(&Marquee::marqueeLoop, this, true);
     thread inputThread(&Marquee::editMarquee, this, true);
@@ -10,6 +12,8 @@ void Marquee::startThread() {
     inputThread.join();
 }
 
+
+// Method for starting a non threaded marquee   
 void Marquee::startNonThread() {
     while (run) {
         marqueeLoop(false);
@@ -17,6 +21,8 @@ void Marquee::startNonThread() {
     }
 }
 
+
+// Method for looping moving and writing marquee
 void Marquee::marqueeLoop(bool loop) {
     while (run) {
         moveMarquee();
@@ -37,11 +43,16 @@ void Marquee::writeMarquee() {
     buffer << martitle << endl;
     for (int y = 0; y < height + 2; y++) {
         for (int x = 0; x < width + 2; x++) {
-            if ((y == 0 && x == 0) || (y == 0 && x == width + 1) || (y == height + 1 && x == 0) || (y == height + 1 && x == width + 1)) { buffer << "+"; }
-            else if (y == 0 || y == height + 1) { buffer << "-"; }
-            else if (x == 0 || x == width + 1) { buffer << "|"; }
-            else if (x == Xpos && y == Ypos) { x += (int)(chatHistory.back().length()) - 1; buffer << chatHistory.back(); }
-            else { buffer << " "; }
+            if ((y == 0 && x == 0) || (y == 0 && x == width + 1) || (y == height + 1 && x == 0) || (y == height + 1 && x == width + 1)) { 
+                buffer << "+"; 
+            } else if (y == 0 || y == height + 1) {
+                buffer << "-"; 
+            } else if (x == 0 || x == width + 1) { 
+                buffer << "|"; 
+            } else if (x == Xpos && y == Ypos) { 
+                x += (int)(chatHistory.back().length()) - 1; 
+                buffer << chatHistory.back(); 
+            } else { buffer << " "; }
         }
         buffer << endl;
     }
@@ -49,7 +60,9 @@ void Marquee::writeMarquee() {
     for (size_t i = 1; i < chatHistory.size(); ++i) {
         buffer << "\nEntered marquee text: " << chatHistory[i];
     }
+
     buffer << "\nEnter new marquee text (type 'exit' to stop): " << pollinput;
+
     cout << buffer.str();
 }
 
@@ -93,4 +106,18 @@ void Marquee::editMarquee(bool loop) {
         this_thread::sleep_for(chrono::milliseconds(pollRate));
         if (!loop) { break; }
     }
+}
+
+// Method to get string height
+size_t Marquee::getStringHeight(const string& str) {
+
+    size_t lines = 1;
+
+    for (char ch : str) {
+        if (ch == '\n') {
+            ++lines;
+        }
+    }
+
+    return lines;
 }

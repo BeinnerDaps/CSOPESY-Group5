@@ -1,10 +1,11 @@
-// MAIN
+﻿// MAIN
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+
 using namespace std;
 
 #include "Data.h"
@@ -12,6 +13,7 @@ using namespace std;
 #include "Commands.h"
 
 int main() {
+
     Screen screen;
     screen.menuView();
 

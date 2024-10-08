@@ -35,7 +35,7 @@ public:
     // Method to process screen commands
     void screenCommand(const string& command);
 
-    // Method to show Nvidia-smi screen
+    // Method to open Nvidia SMI processes
     void nvidsmiCommand();
     
     //  Method to process scheduler test commands

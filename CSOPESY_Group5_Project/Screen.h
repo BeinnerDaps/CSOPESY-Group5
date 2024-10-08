@@ -77,7 +77,6 @@ public:
 
     vector<function<void()>> screen;
 
-
     string smioutput;
     string currentScreen = "";
     string previousScreen = "";
@@ -99,8 +98,10 @@ public:
     // Method to display -ls command screen
     void lsScreenView(const vector<Data::ProcessInfo>& processList);
 
-    void printProcesses(const vector<Data::ProcessInfo>& processes);
+    // Method to display Nvidia SMI Interface
+    void nvidiaSMIView(const vector<Data::ProcessInfo>& processes);
 
+    // Returns string trimmed to fit dimensions
     string textCuttOff(const string& pName, const size_t width);
 
     // Method to clear the screen
