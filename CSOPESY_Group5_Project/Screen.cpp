@@ -32,7 +32,6 @@ std::string commandList = R"(
 
 std::string prompt = R"(Enter a command : )";
 
-
 void Screen::updateScreen(const std::string& newScreen) {
     if (currentScreen != newScreen) {
         previousScreen = currentScreen;
@@ -61,36 +60,6 @@ void Screen::clearScreen() const {
 #endif
 }
 
-void Screen::screenLoop(const std::string& name, bool isNested = false) {
-    std::string command;
-    //bool active = true;
-    //auto& screen = processScreens[name];
-    //displayProcessScreen(screen);
-
-    //while (active && programRunning) {
-    //    std::cout << "Screen " << name << " - Enter command ('exit' to return to main menu): ";
-    //    std::getline(std::cin, command);
-    //    if (command == "exit") {
-    //        active = false;
-    //        insideScreen = false;
-    //        clearScreen();
-    //        if (!isNested) {
-    //            showCommands();
-    //        }
-    //    }
-    //    else if (command == "screen" || command.rfind("screen ", 0) == 0) {
-    //        std::string result = handleScreenCommand(command);
-    //        if (result != "ScreenError") {
-    //            insideScreen = true;
-    //            // nested screens are screens opened within a prior screen
-    //            screenLoop(result, true);  // Pass true to indicate nested screen
-    //            active = false;  // Exit the current screen loop when a nested screen opens
-    //        }
-    //    }
-    //    else {
-    //        std::cout << "Processing command: " << command << std::endl;
-    //        screen.timestamp = getCurrentTimestamp();
-    //        displayProcessScreen(screen);
-    //    }
-    //}
+void Screen::screenLoop(const std::string& name, bool isNested) {
+    // Placeholder
 }
