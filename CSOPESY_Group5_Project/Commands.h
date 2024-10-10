@@ -1,26 +1,29 @@
-// Commands.h
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
 #include "Screen.h"
 #include "Data.h"
+#include "Scheduler.h"
 #include <string>
 
-class Commands: protected Screen, public Data {
+class Commands : protected Screen, public Data {
+
+private:
+    Scheduler scheduler;
 
 public:
+    Commands();
+
+    void initialize();
+
     void initialScreen();
 
-    // processCommand - processes command
     void processCommand(const std::string& command);
 
-    // Command for screen
     void screenCommand(const std::string& command);
 
-    // Method for the -r subcommand
     void rSubCommand(const std::string& name);
 
-    // Method for the -s subcommand
     void sSubCommand(const std::string& name);
 
     void lsSubCommand();
@@ -30,6 +33,8 @@ public:
     void schedulerStopCommand();
 
     void reportUtilCommand();
+
+    void displayProcess(const ProcessInfo& process);
 };
 
 #endif
