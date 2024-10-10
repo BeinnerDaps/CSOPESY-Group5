@@ -1,48 +1,60 @@
 // CONTROLLER
 
-#include <iostream>
-#include <vector>
-#include <sstream>
-
 #include "Commands.h"
-#include "Data.h"
-#include "Screen.h"
+#include <iostream>
+#include <sstream>
+#include <algorithm>
+
+// Constructor definition
+Commands::Commands() {
+    scheduler.start();
+}
 
 void Commands::initialScreen() {
     clearScreen();
     menuView();
-    currentScreen 
+}
+
+void Commands::initialize() {
+    for (int i = 1; i <= 10; ++i) {
+        createProcess("process" + std::to_string(i));
+    }
 }
 
 void Commands::processCommand(const std::string& command) {
     if (command.find("screen") != std::string::npos) {
         screenCommand(command);
-    } else if (command == "scheduler-test") {
+    }
+    else if (command == "scheduler-test") {
         schedulerTestCommand();
-    } else if (command == "scheduler-stop") {
+    }
+    else if (command == "scheduler-stop") {
         schedulerStopCommand();
-    } else if (command == "report-util") {
+    }
+    else if (command == "report-util") {
         reportUtilCommand();
-    } else if (command == "clear") {
-        clearScreen(); 
+    }
+    else if (command == "clear") {
+        clearScreen();
         menuView();
-    } else if (command == "exit") {
-
+    }
+    else if (command == "exit") {
         std::cout << "Terminating Serial OS, Thank you!" << std::endl;
         exit(0);
-    } else {
+    }
+    else {
         std::cout << "ERROR: Unrecognized command." << std::endl;
     }
 }
 
 void Commands::screenCommand(const std::string& command) {
     std::string subCommand, name;
-    std::vector<std::string> subCommands = { "-r", "-s", "-ls"};
+    std::vector<std::string> subCommands = { "-r", "-s", "-ls" };
 
     std::istringstream iss(command);
     iss >> subCommand >> subCommand >> name;
 
-    if (name.empty()) {
+    if (subCommand != "-ls" && name.empty()) {
         std::cout << "ERROR: Process Not Specified" << std::endl;
         return;
     }
@@ -53,16 +65,17 @@ void Commands::screenCommand(const std::string& command) {
     switch (found) {
     case 0: rSubCommand(name); break;
     case 1: sSubCommand(name); break;
-    case 3: lsSubCommand(); break;
+    case 2: lsSubCommand(); break;
     default: std::cout << "ERROR: Invalid Subcommand" << std::endl; break;
     }
 }
 
 void Commands::rSubCommand(const std::string& name) {
     clearScreen();
-    std::cout << "Executing screen -r " <<  name << std::endl;
-    createProcess(name, 0, 100, getTimestamp());
-    displayProcess(name);
+    std::cout << "Executing screen -r " << name << std::endl;
+    createProcess(name);
+    ProcessInfo& process = getProcess(name);
+    displayProcess(process);
 }
 
 void Commands::sSubCommand(const std::string& name) {
@@ -77,18 +90,60 @@ void Commands::sSubCommand(const std::string& name) {
 }
 
 void Commands::lsSubCommand() {
-    
-    
+    std::cout << "Waiting Queue:" << std::endl;
+    auto finishedProcesses = scheduler.getFinishedProcesses();
+    auto runningProcesses = scheduler.getRunningProcesses();
+
+    // Display running processes
+    for (const auto& process : processList) {
+        auto it = std::find_if(finishedProcesses.begin(), finishedProcesses.end(),
+            [&](const std::pair<ProcessInfo, int>& p) { return p.first.processName == process.processName; });
+
+        if (it == finishedProcesses.end()) {
+            auto runningIt = std::find_if(runningProcesses.begin(), runningProcesses.end(),
+                [&](const ProcessInfo& p) { return p.processName == process.processName; });
+
+            if (runningIt != runningProcesses.end()) {
+                std::cout << process.processName << "\tArrival Index: " << process.arrivalTime
+                    << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << std::endl;
+            }
+        }
+    }
+
+    // Display finished processes
+    std::cout << "\nFinished processes:" << std::endl;
+    for (const auto& entry : finishedProcesses) {
+        const auto& process = entry.first;
+        int coreId = entry.second;
+        std::cout << process.processName << "\tArrival Index: " << process.arrivalTime
+            << "\tFinished\tCore: " << coreId
+            << "\t" << process.totalLine << " / " << process.totalLine << std::endl;
+    }
 }
 
 void Commands::schedulerTestCommand() {
-    std::cout << "scheduler-test command recognized. Doing something." << std::endl;
+    std::cout << "Scheduling 10 Processes on 4 CPU Cores (Check via screen -ls)" << std::endl;
+
+    initialize();
+
+    for (auto& process : processList) {
+        scheduler.addProcess(process);
+    }
 }
 
 void Commands::schedulerStopCommand() {
-    std::cout << "scheduler-stop command recognized. Doing something." << std::endl;
+    scheduler.stop();
 }
 
 void Commands::reportUtilCommand() {
-    std::cout << "report-util command recognized. Doing something." << std::endl;
+    std::cout << "report-util command recognized. Reporting utilization." << std::endl;
+}
+
+void Commands::displayProcess(const ProcessInfo& process) {
+    std::cout << "Displaying Process Details:" << std::endl;
+    std::cout << "Process Name: " << process.processName << std::endl;
+    std::cout << "Current Line: " << process.currentLine << std::endl;
+    std::cout << "Total Lines: " << process.totalLine << std::endl;
+    std::cout << "Timestamp: " << process.timeStamp << std::endl;
+    std::cout << "Status: " << (process.isFinished ? "Finished" : "Running") << std::endl;
 }
