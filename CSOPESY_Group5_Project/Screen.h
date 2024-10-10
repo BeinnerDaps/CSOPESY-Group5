@@ -1,10 +1,10 @@
-// Screen.h
 #ifndef SCREEN_H
 #define SCREEN_H
 
 #include <string>
-
-#include "Data.h"
+#include <vector>
+#include <functional>
+#include "ProcessInfo.h"
 
 class Screen {
 
@@ -18,18 +18,14 @@ protected:
 
     void lsScreenView(const ProcessInfo& process);
 
-    // Clear the Screen
     void clearScreen() const;
 
-    // Screen Loop
     void screenLoop(const std::string& name, bool isNested);
 
-    // Update Screen
     void updateScreen(const std::string& newScreen);
 
 public:
-
-
+    virtual ~Screen() = default;
 };
 
 #endif
