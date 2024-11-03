@@ -1,5 +1,3 @@
-// SCHEDULER
-
 #include "Scheduler.h"
 #include <iostream>
 #include <fstream>
@@ -39,22 +37,40 @@ void Scheduler::stop() {
 }
 
 void Scheduler::coreFunction(int coreId) {
-    while (running) {
+    while (true) {
         ProcessInfo process;
 
         {
             std::unique_lock<std::mutex> lock(queueMutex);
             cv.wait(lock, [this]() { return !processQueue.empty() || !running; });
 
-            if (!running) break;
+            if (!running && processQueue.empty()) break;
 
-            process = processQueue.front();
-            processQueue.pop();
+            if (!processQueue.empty()) {
+                process = processQueue.front();
+                processQueue.pop();
+
+                runningProcesses.push_back(process);
+            }
+            else {
+                continue;
+            }
         }
 
-        // Simulate processing by writing to a file???
+        // Simulate processing by writing to a file
         std::ofstream file(process.processName + ".txt", std::ios::app);
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < process.totalLine; ++i) {
+            {
+                std::lock_guard<std::mutex> lock(queueMutex);
+                process.currentLine = i + 1;
+
+                auto runningIt = std::find_if(runningProcesses.begin(), runningProcesses.end(),
+                    [&](const ProcessInfo& p) { return p.processName == process.processName; });
+                if (runningIt != runningProcesses.end()) {
+                    runningIt->currentLine = process.currentLine;
+                }
+            }
+
             auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             std::tm localTime;
 #ifdef _WIN32
@@ -67,14 +83,20 @@ void Scheduler::coreFunction(int coreId) {
             file << "(" << buffer << ") Core:" << coreId << " \"Hello World! from " << process.processName << "\"\n";
 
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        }
+            }
         file.close();
 
         {
             std::lock_guard<std::mutex> lock(queueMutex);
             process.isFinished = true;
             finishedProcesses.push_back({ process, coreId });
+
+            runningProcesses.erase(std::remove_if(runningProcesses.begin(), runningProcesses.end(),
+                [&](const ProcessInfo& p) { return p.processName == process.processName; }),
+                runningProcesses.end());
         }
+
+        cv.notify_one();
     }
 }
 
@@ -85,11 +107,5 @@ std::vector<std::pair<ProcessInfo, int>> Scheduler::getFinishedProcesses() {
 
 std::vector<ProcessInfo> Scheduler::getRunningProcesses() {
     std::lock_guard<std::mutex> lock(queueMutex);
-    std::vector<ProcessInfo> runningProcesses;
-    std::queue<ProcessInfo> tempQueue = processQueue;
-    while (!tempQueue.empty()) {
-        runningProcesses.push_back(tempQueue.front());
-        tempQueue.pop();
-    }
-    return runningProcesses;
+    return runningProcesses; 
 }
