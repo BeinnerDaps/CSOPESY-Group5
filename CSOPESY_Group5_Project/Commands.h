@@ -6,10 +6,11 @@
 #include "Scheduler.h"
 #include <string>
 
-class Commands : protected Screen, public Data {
+class Commands : protected Screen {
 
 private:
     Scheduler scheduler;
+    Data data;
 
 public:
     Commands();
@@ -38,3 +39,4 @@ public:
 };
 
 #endif
+
