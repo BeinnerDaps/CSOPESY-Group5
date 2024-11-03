@@ -3,6 +3,15 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include "Commands.h"
+
+static int nextProcessID = 1; // For unique process IDs
+
+void Data::createProcess(const std::string& processName) {
+    std::string timestamp = Commands::getCurrentTimestamp();
+    ProcessInfo newProcess(nextProcessID++, processName, 100, timestamp);
+    processList.push_back(newProcess);
+}
 
 ProcessInfo& Data::getProcess(const std::string& processName) {
     for (auto& process : processList) {
@@ -11,12 +20,6 @@ ProcessInfo& Data::getProcess(const std::string& processName) {
         }
     }
     throw std::runtime_error("ERROR: Process '" + processName + "' not found.");
-}
-
-void Data::createProcess(const std::string& processName) {
-    std::string timeStamp = getTimestamp();
-    ProcessInfo newProcess = { processName, 0, 100, timeStamp, false };
-    processList.push_back(newProcess);
 }
 
 void Data::listAllProcess() {
@@ -49,4 +52,5 @@ void Data::updateProcessLine(const std::string& processName, int line) {
     auto& process = getProcess(processName);
     process.currentLine = line;
 }
+
 
