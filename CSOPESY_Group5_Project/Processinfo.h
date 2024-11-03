@@ -5,11 +5,11 @@
 
 struct ProcessInfo {
     std::string processName;
-    int currentLine;
+    int currentLine = 0;
     int totalLine;
     std::string timeStamp;
-    int arrivalTime;
     bool isFinished = false;
 };
+
 
 #endif
