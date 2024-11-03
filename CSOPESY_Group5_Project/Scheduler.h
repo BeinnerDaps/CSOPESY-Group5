@@ -11,6 +11,7 @@
 class Scheduler {
 private:
     std::queue<ProcessInfo> processQueue;
+    std::vector<ProcessInfo> runningProcesses;
     std::vector<std::pair<ProcessInfo, int>> finishedProcesses;
     std::vector<std::thread> coreThreads;
     std::mutex queueMutex;
@@ -26,6 +27,7 @@ public:
     void addProcess(const ProcessInfo& process);
     void start();
     void stop();
+
     std::vector<std::pair<ProcessInfo, int>> getFinishedProcesses();
     std::vector<ProcessInfo> getRunningProcesses();
 };
