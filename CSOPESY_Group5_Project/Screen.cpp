@@ -1,5 +1,3 @@
-// VIEW
-
 #include <iostream>
 #include "Screen.h"
 
@@ -42,7 +40,7 @@ void Screen::updateScreen(const std::string& newScreen) {
 void Screen::menuView() {
     std::cout << banner;
     std::cout << commandList;
-    std::cout << prompt;
+    std::cout << prompt << std::endl;
 }
 
 void Screen::lsScreenView(const ProcessInfo& process) {
