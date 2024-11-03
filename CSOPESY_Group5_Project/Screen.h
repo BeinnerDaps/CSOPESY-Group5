@@ -8,7 +8,7 @@
 
 class Screen {
 
-protected:
+public:
     std::vector<std::function<void()>> screen;
 
     std::string currentScreen;
