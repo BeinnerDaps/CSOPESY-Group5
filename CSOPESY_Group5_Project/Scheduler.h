@@ -7,29 +7,32 @@
 #include <mutex>
 #include <condition_variable>
 #include "ProcessInfo.h"
+#include "Config.h"
 
 class Scheduler {
 private:
+    Config config;
     std::queue<ProcessInfo> processQueue;
-    std::vector<ProcessInfo> runningProcesses;
     std::vector<std::pair<ProcessInfo, int>> finishedProcesses;
+    std::vector<ProcessInfo> runningProcesses;
     std::vector<std::thread> coreThreads;
     std::mutex queueMutex;
     std::condition_variable cv;
     bool running;
-
     void coreFunction(int coreId);
+    std::vector<ProcessInfo> waitingProcesses;
+
 
 public:
-    Scheduler();
+    Scheduler(const Config& config);
     ~Scheduler();
-
-    void addProcess(const ProcessInfo& process);
+    ProcessInfo& getProcess(const std::string& name);
     void start();
     void stop();
-
+    void addProcess(const ProcessInfo& process);
     std::vector<std::pair<ProcessInfo, int>> getFinishedProcesses();
     std::vector<ProcessInfo> getRunningProcesses();
+    std::vector<ProcessInfo> getWaitingProcesses();
 };
 
 #endif
