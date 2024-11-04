@@ -167,7 +167,7 @@ void Commands::sSubCommand(const std::string& name) {
     catch (const std::runtime_error& e) {
         std::cout << "Creating new process \"" << name << "\".\n";
 
-        ProcessInfo newProcess(nextProcessID++, name, 100, getCurrentTimestamp(), false);
+        ProcessInfo newProcess(nextProcessID++, name, getRandomInt(int(config.minIns), int(config.maxIns)), getCurrentTimestamp(), false);
         scheduler->addProcess(newProcess);
 
         enterProcessScreen(newProcess);
@@ -221,7 +221,14 @@ void Commands::schedulerTestCommand() {
     std::cout << "Scheduling 10 Processes on " << config.numCpu << " CPU Cores (Check via screen -ls)" << std::endl;
 
     for (int i = 1; i <= 10; ++i) {
-        ProcessInfo process(nextProcessID++, "process" + std::to_string(i), 100, getCurrentTimestamp(), false);
+        ProcessInfo process(
+            nextProcessID++, 
+            "process" + std::to_string(i), 
+            getRandomInt(config.minIns, config.maxIns), 
+            getCurrentTimestamp(), 
+            false
+        );
+
         scheduler->addProcess(process); // Only add to scheduler
         std::this_thread::sleep_for(std::chrono::milliseconds(1));  // Add 1 ms delay for different timestamps
     }
@@ -281,4 +288,13 @@ void Commands::displayProcess(const ProcessInfo& process) {
     std::cout << "Total Lines: " << process.totalLine << std::endl;
     std::cout << "Timestamp: " << process.timeStamp << std::endl;
     std::cout << "Status: " << (process.isFinished ? "Finished" : "Running") << std::endl;
+}
+
+int Commands::getRandomInt(int floor, int ceiling) {
+    // Initialize random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(floor, ceiling);
+
+    return dist(gen);
 }

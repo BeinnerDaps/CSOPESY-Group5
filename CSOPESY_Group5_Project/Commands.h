@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
+#include <random>
 
 class Commands : public Screen, public Data {
 
@@ -37,7 +38,7 @@ public:
     void schedulerStopCommand();
     void reportUtilCommand();
     void displayProcess(const ProcessInfo& process);
-    void createProcess(const std::string& name);
+    int getRandomInt(int floor, int ceiling);
 };
 
 #endif
