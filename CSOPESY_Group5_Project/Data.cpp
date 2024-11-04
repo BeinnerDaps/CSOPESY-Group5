@@ -52,5 +52,3 @@ void Data::updateProcessLine(const std::string& processName, int line) {
     auto& process = getProcess(processName);
     process.currentLine = line;
 }
-
-
