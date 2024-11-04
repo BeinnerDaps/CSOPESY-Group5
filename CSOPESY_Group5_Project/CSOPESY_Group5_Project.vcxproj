@@ -22,11 +22,18 @@
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="CSOPESY-S16_Group5.cpp" />
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="config.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Processinfo.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Screen.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

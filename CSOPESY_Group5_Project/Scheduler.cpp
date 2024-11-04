@@ -96,8 +96,9 @@ void Scheduler::coreFunction(int coreId) {
 
         bool processCompleted = false;
         int executedCycles = 0;
+        int execCycles = (schedulerType == "rr") ? quantum : process.totalLine;
 
-        while (executedCycles < config.quantumCycles && process.currentLine < process.totalLine) {
+        while (executedCycles < execCycles && process.currentLine < process.totalLine) {
             std::this_thread::sleep_for(std::chrono::milliseconds(config.delaysPerExec));
             process.currentLine++;
             executedCycles++;
@@ -129,7 +130,7 @@ void Scheduler::coreFunction(int coreId) {
             finishedProcesses.push_back({ process, coreId });
             // std::cout << "[DEBUG] Process " << process.processName << " completed on core " << coreId << std::endl;
         }
-        else {
+        else if (schedulerType == "rr") {
             std::lock_guard<std::mutex> lock(queueMutex);
             processQueue.push_back(process);
             // std::cout << "[DEBUG] Process " << process.processName << " quantum depleted, re-queuing on core " << coreId << std::endl;

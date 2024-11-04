@@ -10,7 +10,8 @@
 #include <memory>
 #include <mutex>
 
-class Commands : protected Screen, public Data {
+class Commands : public Screen, public Data {
+
 private:
     std::unique_ptr<Scheduler> scheduler;
     Config config;

@@ -1,0 +1,15 @@
+Waiting Queue:
+
+Running Queue:
+
+Finished processes:
+process1	Process created at: 11/04/2024, 04:41:40.421 PM	Finished	Core: 3	100 / 100
+process2	Process created at: 11/04/2024, 04:41:40.437 PM	Finished	Core: 4	100 / 100
+process3	Process created at: 11/04/2024, 04:41:40.453 PM	Finished	Core: 2	100 / 100
+process4	Process created at: 11/04/2024, 04:41:40.468 PM	Finished	Core: 1	100 / 100
+process5	Process created at: 11/04/2024, 04:41:40.484 PM	Finished	Core: 3	100 / 100
+process6	Process created at: 11/04/2024, 04:41:40.500 PM	Finished	Core: 4	100 / 100
+process7	Process created at: 11/04/2024, 04:41:40.516 PM	Finished	Core: 2	100 / 100
+process8	Process created at: 11/04/2024, 04:41:40.533 PM	Finished	Core: 1	100 / 100
+process9	Process created at: 11/04/2024, 04:41:40.548 PM	Finished	Core: 3	100 / 100
+process10	Process created at: 11/04/2024, 04:41:40.564 PM	Finished	Core: 4	100 / 100

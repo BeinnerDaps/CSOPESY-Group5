@@ -9,12 +9,15 @@
 #include "Data.h"
 #include "Screen.h"
 #include "Commands.h"
+
 Data data;
 Screen screen;
 Commands commands;
 
 int main() {
     std::string command;
+    commands.initialScreen();
+    commands.initialize();
 
     // Main loop to continuously take in commands, until exit.
     while (true) {
