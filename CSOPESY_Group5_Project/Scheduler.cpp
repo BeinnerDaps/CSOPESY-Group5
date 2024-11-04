@@ -99,7 +99,7 @@ void Scheduler::coreFunction(int coreId) {
         bool processCompleted = false;
         int executedCycles = 0;
         int execCycles = (schedulerType == "rr") ? quantum : process.totalLine;
-        int delay = (config.delaysPerExec < 1) ? 1 : config.delaysPerExec;
+        int delay = (config.delaysPerExec <= 1) ? 1 : config.delaysPerExec-1;
 
         while (executedCycles < execCycles && process.currentLine < process.totalLine) {
             std::this_thread::sleep_for(std::chrono::milliseconds(delay));
@@ -141,7 +141,7 @@ void Scheduler::coreFunction(int coreId) {
         }
 
     cv.notify_all();
-    std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq));
+    std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq-1));
     }
 }
 

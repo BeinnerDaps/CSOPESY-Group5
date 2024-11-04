@@ -223,9 +223,11 @@ void Commands::schedulerTestCommand() {
         return;
     }
 
-    std::cout << "Scheduling 50 Processes on " << config.numCpu << " CPU Cores (Check via screen -ls)" << std::endl;
+    int processamt = 16;
 
-    for (int i = 1; i <= 50; ++i) {
+    std::cout << "Scheduling " << processamt << " Processes on " << config.numCpu << " CPU Cores(Check via screen - ls)" << std::endl;
+
+    for (int i = 1; i <= processamt; ++i) {
         ProcessInfo process(
             nextProcessID++, 
             "process" + std::to_string(i), 

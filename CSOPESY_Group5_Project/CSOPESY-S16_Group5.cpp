@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 #include <cstdlib> // For clearing functionality
 
 #include "Data.h"
@@ -24,6 +25,7 @@ int main() {
         std::cout << "> ";
         std::getline(std::cin, command);
         commands.processCommand(command);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
     return 0;
