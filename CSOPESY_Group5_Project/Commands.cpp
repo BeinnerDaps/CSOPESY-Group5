@@ -1,15 +1,10 @@
 #include "Commands.h"
-#include "Data.h"
+#include "ProcessInfo.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <random>
-#include <memory>
 #include <iomanip>
-#include <ctime>
-#include <sstream>
-#include <thread>
 #include <chrono>
 
 static int nextProcessID = 1; // For unique process IDs
@@ -38,9 +33,7 @@ std::string Commands::getCurrentTimestamp() {
 }
 
 // Constructor
-Commands::Commands() {
-    scheduler = nullptr;
-}
+Commands::Commands() : scheduler(nullptr) {}
 
 void Commands::initialize() {
     if (scheduler == nullptr) {
@@ -71,7 +64,6 @@ void Commands::initialize() {
     }
 }
 
-// Function to parse the config file
 Config Commands::parseConfigFile(const std::string& filename) {
     Config config;
     std::ifstream file(filename);
