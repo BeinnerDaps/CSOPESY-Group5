@@ -233,6 +233,8 @@ void Commands::schedulerStopCommand() {
 
 // Process reporting and display
 void Commands::writeProcessReport(std::ostream& os) {
+    os << scheduler->getMetrics();
+
     os << "Waiting Queue:\n";
     for (const auto& process : scheduler->getWaitingProcesses()) {
         os << process.processName << "\tProcess created at: " << process.timeStamp

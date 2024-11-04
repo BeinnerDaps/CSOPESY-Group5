@@ -5,6 +5,7 @@
 #include <vector>
 #include <thread>
 #include <mutex>
+#include <sstream> 
 #include <condition_variable>
 #include "ProcessInfo.h"
 #include "Config.h"
@@ -24,6 +25,7 @@ private:
 
     int quantum;
     std::string schedulerType;
+    int coresInUse = 0;
 
 public:
     Scheduler(const Config& config);
@@ -35,6 +37,7 @@ public:
     std::vector<std::pair<ProcessInfo, int>> getFinishedProcesses();
     std::vector<ProcessInfo> getRunningProcesses();
     std::vector<ProcessInfo> getWaitingProcesses();
+    std::string getMetrics();
 };
 
 #endif

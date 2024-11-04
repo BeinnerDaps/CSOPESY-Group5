@@ -88,6 +88,8 @@ void Scheduler::coreFunction(int coreId) {
             processAssigned = true;
 
             runningProcesses.push_back(process);
+
+            ++coresInUse;
         }
 
         if (!processAssigned) {
@@ -123,6 +125,7 @@ void Scheduler::coreFunction(int coreId) {
             runningProcesses.erase(std::remove_if(runningProcesses.begin(), runningProcesses.end(),
                 [&](const ProcessInfo& p) { return p.processID == process.processID; }),
                 runningProcesses.end());
+            --coresInUse;
         }
 
         if (processCompleted) {
@@ -138,6 +141,20 @@ void Scheduler::coreFunction(int coreId) {
 
         cv.notify_all();
     }
+}
+
+std::string Scheduler::getMetrics() {
+    // CPU Utilization: percentage of active core time
+    double cpuUtilization = (coresInUse * 100.0) / config.numCpu;
+
+    // Cores Used and Cores Available
+    int coresAvailable = config.numCpu - coresInUse;
+
+    std::ostringstream os;
+    os << "\nCPU Utilization: " << cpuUtilization << "%\n";
+    os << "Cores Used: " << coresInUse << "\n";
+    os << "Cores Available: " << coresAvailable << "\n\n";
+    return os.str();
 }
 
 
