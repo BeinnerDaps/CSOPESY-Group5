@@ -4,15 +4,15 @@
 
 Data data;
 Screen screen;
-
+Scheduler scheduler;
 
 // Method for processing commands
 void Commands::processCommand(const string& input) {
-    const std::unordered_map<string, function<void(const string&)>> CommandActions = {
+    const unordered_map<string, function<void(const string&)>> CommandActions = {
         { "marquee", [this](const string& input) { marqueeCommand(input); } },
         { "screen", [this](const string& input) { screenCommand(input); } },
         { "nvidia-smi", [this](const string&) { nvidsmiCommand(); } },
-        { "scheduler-test", [this](const string&) { schedulerTestCommand(); } },
+        { "scheduler-test", [this](const string& input) { schedulerTestCommand(input); } },
         { "scheduler-stop", [this](const string&) { schedulerStopCommand(); } },
         { "report-util", [this](const string&) {  reportUtilCommand(); } },
         { "clear", [this](const string&) {  screen.clearScreen(); } },
@@ -80,7 +80,7 @@ void Commands::screenCommand(const string& command) {
     switch (found) {
         case 0: displayProc(data.getProcess(name), "ERROR: Process '" + name + "' not found."); break;
         case 1: displayProc(data.createProcess(name), "ERROR: Process '" + name + "' already exists."); break;
-        case 2: screen.lsScreenView(data.listAllProcess());  break;
+        case 2: screen.lsScreenView(data.listAllProcess(), scheduler.getFinishedProcesses(), scheduler.getRunningProcesses());  break;
         default: cout << "ERROR: Invalid Subcommand" << endl; break;   
     }
 }
@@ -89,25 +89,41 @@ void Commands::screenCommand(const string& command) {
 // Method to open Nvidia SMI processes
 void Commands::nvidsmiCommand() {
 
-    data.processList.emplace_back("C:\\Users\\user\\Downloads\\File.exe", data.processList.size() + 1, data.processList.size() + 1, data.getTime(), 1368, "C+G", "N/A");
-    data.processList.emplace_back("C:\\Users\\user\\DLSU\\CSOPESY_PROJECT.exe", data.processList.size() + 1, data.processList.size() + 1, data.getTime(), 8024, "C+G", "N/A");
-    data.processList.emplace_back("C:\\Users\\user\\personal\\Onedrive\\Project1\\Verylongfolderorfilename\\wordfile.docx", data.processList.size() + 1, data.processList.size() + 1, data.getTime(), 2913, "C+G", "N/A");
-    data.processList.emplace_back("C:\\Users\\user\\Acads\\Homework\\Video.mp4", data.processList.size() + 1, data.processList.size() + 1, data.getTime(), 1371, "C+G", "N/A");
-    data.processList.emplace_back("C:\\Users\\user\\:E", data.processList.size() + 1, data.processList.size() + 1, data.getTime(), 1313, "C+G", "N/A");
+    data.processList.emplace_back("C:\\Users\\user\\Downloads\\File.exe", data.getTime(), 1368);
+    data.processList.emplace_back("C:\\Users\\user\\DLSU\\CSOPESY_PROJECT.exe", data.getTime(), 8024);
+    data.processList.emplace_back("C:\\Users\\user\\personal\\Onedrive\\Project1\\Verylongfolderorfilename\\wordfile.docx", data.getTime(), 2913);
+    data.processList.emplace_back("C:\\Users\\user\\Acads\\Homework\\Video.mp4", data.getTime(), 1371);
+    data.processList.emplace_back("C:\\Users\\user\\:E", data.getTime(), 1313);
 
     screen.nvidiaSMIView(data.listAllProcess());
 }
 
-
 //  Method to process scheduler test commands
-void Commands::schedulerTestCommand() {
-    std::cout << "scheduler-test command recognized. Doing something." << std::endl;
+void Commands::schedulerTestCommand(const string& command) {
+
+    int processnum;
+    istringstream iss(command);
+    iss >> processnum >> processnum;
+
+    if (!processnum) { processnum = 10; } // Default processes
+
+    cout << "Scheduling" << processnum << "processes on 4 CPU Cores(Check via screen - ls)" << endl;
+
+    // Initialize processes
+    for (int i = 1; i <= processnum; ++i) { 
+        data.createProcess("process" + to_string(i));
+        Sleep(data.getRandomNumber(500, 2000));
+    }
+
+    // Add process to scheduler
+    for (auto& process : data.processList) { scheduler.addProcess(process); }
 }
 
 
 //  Method to process scheduler stop commands
 void Commands::schedulerStopCommand() {
-    std::cout << "scheduler-stop command recognized. Doing something." << std::endl;
+    cout << "scheduler-stop command recognized. Doing something." << endl;
+    scheduler.stop();
 }
 
 
@@ -119,5 +135,5 @@ void Commands::reportUtilCommand() {
 
 //  Method to exit out screen
 void Commands::exitCommand() {
-    (screen.getCurrent() == "menuView") ? exit(0) : screen.menuView();
+    (screen.getCurrent() == "menuView") ? exit(0) : screen.menuView(); schedulerStopCommand();
 }

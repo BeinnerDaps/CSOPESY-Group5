@@ -3,13 +3,14 @@
 #ifndef DATA_H
 #define DATA_H
 
-
 #include <algorithm>
+#include <chrono>
 #include <ctime>
 #include <functional>
 #include <iomanip>
 #include <iostream>
 #include <optional>
+#include <random>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -17,18 +18,21 @@ using namespace std;
 
 class Data {
 
+private:
+
+    int pid = 1000;
+
 public:
     Data() {}
 
     // Struct containing process information
     struct ProcessInfo {
         string processName;
+        string arrivalTime;
+        int pid;
         int currentLine;
         int totalLine;
-        string timeStamp;
-        int pid;
-        string type;
-        string gpuMemoryUsage;
+        bool isFinished;
     };
 
     // List of processes
@@ -45,6 +49,8 @@ public:
 
     // Method to update processes
     void updateProcess(const int processcount);
+
+    int getRandomNumber(int floor, int ceil);
 
     // Method to get current time
     string getTime();

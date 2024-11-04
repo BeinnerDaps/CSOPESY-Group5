@@ -14,6 +14,7 @@ using namespace std;
 
 int main() {
 
+    int cpuTick = 0;
     Screen screen;
     screen.menuView();
 
@@ -25,6 +26,8 @@ int main() {
         cout << "> ";
         getline(cin, input);
         commands.processCommand(input);
+
+        ++cpuTick;
     }
 
     return 0;

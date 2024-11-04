@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "Screen.h"
 #include "Marquee.h"
+#include "Scheduler.h"
 
 #include <chrono>
 #include <functional>
@@ -15,6 +16,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
+#include <windows.h> 
 using namespace std;
 
 class Commands {
@@ -40,7 +42,7 @@ public:
     void nvidsmiCommand();
     
     //  Method to process scheduler test commands
-    void schedulerTestCommand();
+    void schedulerTestCommand(const string& command);
 
     //  Method to process scheduler stop commands
     void schedulerStopCommand();

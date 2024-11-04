@@ -36,22 +36,45 @@ void Screen::rsScreenView(const Data::ProcessInfo& process) {
     cout << "Process Name: " << process.processName << endl;
     cout << "Current Line: " << process.currentLine << endl;
     cout << "Total Lines: " << process.totalLine << endl;
-    cout << "Timestamp: " << process.timeStamp << endl;
+    cout << "Timestamp: " << process.arrivalTime << endl;
 }
 
 
 // Method to display -ls command screen
-void Screen::lsScreenView(const std::vector<Data::ProcessInfo>& processList) {
+void Screen::lsScreenView(const vector<Data::ProcessInfo>& processList, const vector<pair<Data::ProcessInfo, int>> finishedPs, const vector<Data::ProcessInfo> runningPs) {
     updateScreen("lsScreenView");
 
-    if (!processList.size()) { cout << "Nothing here but us chickens" << endl; }
+    if (!processList.size()) { 
+        cout << "Nothing here but us chickens" << endl; 
+    } 
+    else
+    {
+        // Display running processes
+        cout << "Waiting Queue:" << endl;
+        for (const auto& process : processList) {
+            auto it = find_if(finishedPs.begin(), finishedPs.end(),
+                [&](const pair<Data::ProcessInfo, int>& p) { return p.first.processName == process.processName; });
 
-    for (const auto& process : processList) { 
-        cout << "Process Name: " << process.processName << endl;
-        cout << "Current Line: " << process.currentLine << endl;
-        cout << "Total Lines: " << process.totalLine << endl;
-        cout << "Timestamp: " << process.timeStamp << endl;
-        cout << "==============================================" << endl;
+            if (it == finishedPs.end()) {
+                auto runningIt = find_if(runningPs.begin(), runningPs.end(),
+                    [&](const Data::ProcessInfo& p) { return p.processName == process.processName; });
+
+                if (runningIt != runningPs.end()) {
+                    cout << process.processName << "\tArrival Index: " << process.arrivalTime
+                        << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << endl;
+                }
+            }
+        }
+
+        // Display finished processes
+        cout << "\nFinished processes:" << endl;
+        for (const auto& entry : finishedPs) {
+            const auto& process = entry.first;
+            int coreId = entry.second;
+            cout << process.processName << "\tArrival Index: " << process.arrivalTime
+                << "\tFinished\tCore: " << coreId
+                << "\t" << process.totalLine << " / " << process.totalLine << endl;
+        }
     }
 }
 
@@ -65,19 +88,26 @@ void Screen::nvidiaSMIView(const vector<Data::ProcessInfo>& processes) {
     ss << smitable;
 
     for (const auto& process : processes) {
-        string temp = textCuttOff(process.processName, 36);
-        ss << "|    0   N/A   N/A      ";
-        ss.width(6); ss << left << process.pid << "  ";
-        ss.width(5); ss << left << process.type << "   ";
-        ss << temp;
-        if (temp.length() < 47) { ss.width(37 - temp.length()); ss << " ";}
-        else { ss << "  ";}
-        ss.width(1); ss << left << process.gpuMemoryUsage;
-        ss.width(6); ss << " ";
-        ss << "|" << endl;
+        
+        ss << right;
+        ss << "|";
+        ss.width(5); ss << "0";
+        ss.width(6); ss << "N/A";
+        ss.width(5); ss << "N/A";
+
+        ss.width(log10(process.pid) + 7); ss << process.pid;
+        ss.width(7); ss << "C+G";
+        
+
+        string text = textCuttOff(process.processName, 38);
+        ss.width(text.length() + 3); ss << text;
+
+
+        ss.width((38-text.length()) + 9); ss << "N/A";
+        ss.width(7); ss << "|" << endl;
     }
 
-    ss << "+-------------------------------------------------------------------------------------+" << endl;
+    ss << "+-----------------------------------------------------------------------------------------+" << endl;
 
     cout << ss.str() << endl;
 }
@@ -97,39 +127,3 @@ void Screen::clearScreen() const {
         system("clear");
     #endif
 }
-
-
-
-//void Screen::screenLoop(const std::string& name, bool isNested = false) {
-//    std::string command;
-//    bool active = true;
-//    auto& screen = processScreens[name];
-//    displayProcessScreen(screen);
-//
-//    while (active && programRunning) {
-//        std::cout << "Screen " << name << " - Enter command ('exit' to return to main menu): ";
-//        std::getline(std::cin, command);
-//        if (command == "exit") {
-//            active = false;
-//            insideScreen = false;
-//            clearScreen();
-//            if (!isNested) {
-//                showCommands();
-//            }
-//        }
-//        else if (command == "screen" || command.rfind("screen ", 0) == 0) {
-//            std::string result = handleScreenCommand(command);
-//            if (result != "ScreenError") {
-//                insideScreen = true;
-//                // nested screens are screens opened within a prior screen
-//                screenLoop(result, true);  // Pass true to indicate nested screen
-//                active = false;  // Exit the current screen loop when a nested screen opens
-//            }
-//        }
-//        else {
-//            std::cout << "Processing command: " << command << std::endl;
-//            screen.timestamp = getCurrentTimestamp();
-//            displayProcessScreen(screen);
-//        }
-//    }
-//}

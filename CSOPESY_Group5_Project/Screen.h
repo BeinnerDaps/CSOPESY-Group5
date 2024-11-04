@@ -5,6 +5,7 @@
 
 #include "Data.h"
 
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -53,23 +54,25 @@ Enter a command :
 
 
 const string smiheader = R"(
-+-------------------------------------------------------------------------------------+ 
-|  NVIDIA-SMI 551.86          Driver Version: 551.86         CUDA Version: 12.4       |
-+-------------------------------------------------------------------------------------+
-|  GPU  Name              TCC/WDDM   | Bus-Id         Disp.A |  Volatile Uncorr. ECC  |
-|  Fan  Temp  Perf    Pwr: Usage/Cap |          Memory-Usage |  GPU-Util  Compute M.  |
-|====================================+=======================+========================|
-|  0  NVIDIA GeForce GTX 1080   WDDM | 00000000:26:00.0   On |                    N/A |
-| 28%  37C      P8       11W / 180W  |      701MiB / 8192MiB |      0%        Default |
-+------------------------------------+-----------------------+------------------------+
++-----------------------------------------------------------------------------------------+ 
+| NVIDIA-SMI 551.86                 Driver Version: 551.86         CUDA Version: 12.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                     TCC/WDDM  | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080      WDDM  |   00000000:26:00.0  On |                  N/A |
+| 28%   37C    P8             11W /  180W |     701MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
 )";
 
 const string smitable = R"(
-+-------------------------------------------------------------------------------------+
-|  Processes:                                                                         |
-|  GPU   Gi   CI         PID   Type   Process name                         GPU Memory |
-|        ID   ID                                                           Usage      |
-|=====================================================================================|
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
 )";
 
 public:
@@ -97,7 +100,7 @@ public:
     void rsScreenView(const Data::ProcessInfo& process);
 
     // Method to display -ls command screen
-    void lsScreenView(const vector<Data::ProcessInfo>& processList);
+    void lsScreenView(const vector<Data::ProcessInfo>& processList, const vector<pair<Data::ProcessInfo, int>> finishedPs, const vector<Data::ProcessInfo> runningPs);
 
     // Method to display Nvidia SMI Interface
     void nvidiaSMIView(const vector<Data::ProcessInfo>& processes);
