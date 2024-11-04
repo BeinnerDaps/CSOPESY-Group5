@@ -99,9 +99,10 @@ void Scheduler::coreFunction(int coreId) {
         bool processCompleted = false;
         int executedCycles = 0;
         int execCycles = (schedulerType == "rr") ? quantum : process.totalLine;
+        int delay = (config.delaysPerExec < 1) ? 1 : config.delaysPerExec;
 
         while (executedCycles < execCycles && process.currentLine < process.totalLine) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(config.delaysPerExec));
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay));
             process.currentLine++;
             executedCycles++;
 
@@ -139,7 +140,8 @@ void Scheduler::coreFunction(int coreId) {
             // std::cout << "[DEBUG] Process " << process.processName << " quantum depleted, re-queuing on core " << coreId << std::endl;
         }
 
-        cv.notify_all();
+    cv.notify_all();
+    std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq));
     }
 }
 

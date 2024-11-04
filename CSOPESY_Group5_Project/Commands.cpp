@@ -83,7 +83,7 @@ Config Commands::parseConfigFile(const std::string& filename) {
         else if (key == "batch-process-freq") iss >> config.batchProcessFreq;
         else if (key == "min-ins") iss >> config.minIns;
         else if (key == "max-ins") iss >> config.maxIns;
-        else if (key == "delays-per-exec") iss >> config.delaysPerExec;
+        else if (key == "delay-per-exec") iss >> config.delaysPerExec;
 
         if (!config.scheduler.empty() && config.scheduler.front() == '"' && config.scheduler.back() == '"') {
             config.scheduler = config.scheduler.substr(1, config.scheduler.size() - 2);
@@ -223,9 +223,9 @@ void Commands::schedulerTestCommand() {
         return;
     }
 
-    std::cout << "Scheduling 10 Processes on " << config.numCpu << " CPU Cores (Check via screen -ls)" << std::endl;
+    std::cout << "Scheduling 50 Processes on " << config.numCpu << " CPU Cores (Check via screen -ls)" << std::endl;
 
-    for (int i = 1; i <= 10; ++i) {
+    for (int i = 1; i <= 50; ++i) {
         ProcessInfo process(
             nextProcessID++, 
             "process" + std::to_string(i), 
