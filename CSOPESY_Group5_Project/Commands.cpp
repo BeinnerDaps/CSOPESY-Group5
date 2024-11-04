@@ -84,6 +84,10 @@ Config Commands::parseConfigFile(const std::string& filename) {
         else if (key == "min-ins") iss >> config.minIns;
         else if (key == "max-ins") iss >> config.maxIns;
         else if (key == "delays-per-exec") iss >> config.delaysPerExec;
+
+        if (!config.scheduler.empty() && config.scheduler.front() == '"' && config.scheduler.back() == '"') {
+            config.scheduler = config.scheduler.substr(1, config.scheduler.size() - 2);
+        }
     }
     file.close();
     return config;
@@ -198,6 +202,7 @@ void Commands::enterProcessScreen(ProcessInfo& process) {
         else if (command == "exit") {
             std::cout << "Exiting process screen...\n";
             isRunning = false;
+            initialScreen();
         }
         else {
             std::cout << "Invalid command. Available commands: 'process-smi', 'exit'.\n";
