@@ -1,4 +1,4 @@
-# MO1 - Process Multiplexer and CLI
+# M01 - Process Multiplexer and CLI
 
 ## Members (**Group 5 S16**)
 1. DEL ROSARIO, MICHAEL GABRIEL A.
