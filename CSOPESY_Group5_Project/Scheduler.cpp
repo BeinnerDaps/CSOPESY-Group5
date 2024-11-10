@@ -36,7 +36,8 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
     int requiredFrames = config.procMem / config.frameMem;
     int freeFrames = 0;
     int startFrame = -1;
-
+    
+    // Check free frames
     for (int i = 0; i < config.numFrame; ++i) {
         if (!memoryPool[i].occupied) {
             if (freeFrames == 0) { startFrame = i; }
@@ -61,6 +62,7 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
 
     // Store allocated frames
     process.procMemloc = { startFrame, startFrame + requiredFrames };
+    procInMem++;
     return true;
 }
 
@@ -73,6 +75,7 @@ void Scheduler::deallocMemory(ProcessInfo& process) {
         memoryPool[i].occupied = false;
         memoryPool[i].procName = "";
     }
+    procInMem--;
 }
 
 void Scheduler::Memoryreport(int cycle) {
@@ -84,7 +87,7 @@ void Scheduler::Memoryreport(int cycle) {
 
     // Write the timestamp and the number of processes in memory
     report << "Timestamp: " << data.getTimestamp() << "\n";
-    report << "Number of processes in memory: " << runningProcesses.size() << "\n";
+    report << "Number of processes in memory: " << procInMem << "\n";
 
     // Calculate external fragmentation
     int freeFrames = 0;

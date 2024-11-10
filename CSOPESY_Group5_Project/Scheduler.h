@@ -33,6 +33,7 @@ private:
     void Memoryreport(int cycle);
 
     int coresInUse = 0;
+    int procInMem = 0;
 
 public:
     Scheduler(const Config& config);
