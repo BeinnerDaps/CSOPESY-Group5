@@ -84,11 +84,19 @@ Config Commands::parseConfigFile(const std::string& filename) {
         else if (key == "min-ins") iss >> config.minIns;
         else if (key == "max-ins") iss >> config.maxIns;
         else if (key == "delay-per-exec") iss >> config.delaysPerExec;
-
-        if (!config.scheduler.empty() && config.scheduler.front() == '"' && config.scheduler.back() == '"') {
-            config.scheduler = config.scheduler.substr(1, config.scheduler.size() - 2);
-        }
+        else if (key == "max-overall-mem") iss >> config.overallMem;
+        else if (key == "mem-per-frame") iss >> config.frameMem;
+        else if (key == "mem-per-proc") iss >> config.procMem;
     }
+
+    if (!config.scheduler.empty() && config.scheduler.front() == '"' && config.scheduler.back() == '"') {
+        config.scheduler = config.scheduler.substr(1, config.scheduler.size() - 2);
+    }
+
+    if (config.overallMem && config.frameMem) {
+        config.numFrame = config.overallMem / config.frameMem;
+    }
+
     file.close();
     return config;
 }
@@ -223,7 +231,7 @@ void Commands::schedulerTestCommand() {
         return;
     }
 
-    int processamt = 16;
+    int processamt = 10;
 
     std::cout << "Scheduling " << processamt << " Processes on " << config.numCpu << " CPU Cores(Check via screen - ls)" << std::endl;
 
@@ -249,8 +257,14 @@ void Commands::schedulerStopCommand() {
 void Commands::writeProcessReport(std::ostream& os) {
     os << scheduler->getMetrics();
 
-    os << "Waiting Queue:\n";
+    os << "\nWaiting Queue:\n";
     for (const auto& process : scheduler->getWaitingProcesses()) {
+        os << process.processName << "\tProcess created at: " << process.timeStamp
+            << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << "\n";
+    }
+
+    os << "\nIn Memory:\n";
+    for (const auto& process : scheduler->getWaitingMemory()) {
         os << process.processName << "\tProcess created at: " << process.timeStamp
             << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << "\n";
     }

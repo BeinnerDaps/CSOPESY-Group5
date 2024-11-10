@@ -12,11 +12,11 @@ public:
     int assignedCore;
     std::string timeStamp;
     bool isFinished;
-    int remainingQuantum;
+    std::pair<int, int> procMemloc;
 
     ProcessInfo(int id, const std::string& name, int lines, const std::string& timestamp, bool finished = false)
         : processID(id), processName(name), totalLine(lines), currentLine(0), assignedCore(-1),
-        timeStamp(timestamp), isFinished(finished), remainingQuantum(0) {}
+        timeStamp(timestamp), isFinished(finished), procMemloc({-1,-1}) {}
 };
 
 #endif

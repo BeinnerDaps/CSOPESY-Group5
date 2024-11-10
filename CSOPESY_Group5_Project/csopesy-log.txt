@@ -1,20 +1,26 @@
 
-CPU Utilization: 0%
-Cores Used: 0
-Cores Available: 32
+CPU Utilization: 100%
+Cores Used: 16
+Cores Available: 0
 
 Waiting Queue:
 
 Running Queue:
+process7	Process created at: 11/04/2024, 09:45:39.173 PM	Core: 15	2599 / 5000
+process12	Process created at: 11/04/2024, 09:45:39.251 PM	Core: 2	2594 / 5000
+process2	Process created at: 11/04/2024, 09:45:39.094 PM	Core: 9	2604 / 5000
+process8	Process created at: 11/04/2024, 09:45:39.189 PM	Core: 16	2598 / 5000
+process13	Process created at: 11/04/2024, 09:45:39.267 PM	Core: 8	2593 / 5000
+process3	Process created at: 11/04/2024, 09:45:39.110 PM	Core: 13	2603 / 5000
+process9	Process created at: 11/04/2024, 09:45:39.205 PM	Core: 10	2597 / 5000
+process4	Process created at: 11/04/2024, 09:45:39.126 PM	Core: 4	2602 / 5000
+process14	Process created at: 11/04/2024, 09:45:39.282 PM	Core: 12	2592 / 5000
+process5	Process created at: 11/04/2024, 09:45:39.142 PM	Core: 6	2601 / 5000
+process15	Process created at: 11/04/2024, 09:45:39.298 PM	Core: 1	2591 / 5000
+process10	Process created at: 11/04/2024, 09:45:39.220 PM	Core: 3	2596 / 5000
+process16	Process created at: 11/04/2024, 09:45:39.313 PM	Core: 7	2590 / 5000
+process11	Process created at: 11/04/2024, 09:45:39.236 PM	Core: 11	2595 / 5000
+process6	Process created at: 11/04/2024, 09:45:39.157 PM	Core: 14	2600 / 5000
+process1	Process created at: 11/04/2024, 09:45:39.075 PM	Core: 5	2605 / 5000
 
 Finished processes:
-process1	Process created at: 11/04/2024, 06:41:06.215 PM	Finished	Core: 1	100 / 100
-process2	Process created at: 11/04/2024, 06:41:06.222 PM	Finished	Core: 17	100 / 100
-process3	Process created at: 11/04/2024, 06:41:06.238 PM	Finished	Core: 17	100 / 100
-process4	Process created at: 11/04/2024, 06:41:06.254 PM	Finished	Core: 15	100 / 100
-process5	Process created at: 11/04/2024, 06:41:06.269 PM	Finished	Core: 6	100 / 100
-process6	Process created at: 11/04/2024, 06:41:06.285 PM	Finished	Core: 14	100 / 100
-process7	Process created at: 11/04/2024, 06:41:06.300 PM	Finished	Core: 12	100 / 100
-process8	Process created at: 11/04/2024, 06:41:06.316 PM	Finished	Core: 22	100 / 100
-process9	Process created at: 11/04/2024, 06:41:06.331 PM	Finished	Core: 22	100 / 100
-process10	Process created at: 11/04/2024, 06:41:06.346 PM	Finished	Core: 6	100 / 100

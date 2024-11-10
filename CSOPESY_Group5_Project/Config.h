@@ -11,6 +11,19 @@ struct Config {
     int minIns;
     int maxIns;
     int delaysPerExec;
+    
+    int overallMem;
+    int frameMem;
+    int procMem;
+    int numFrame;
+};
+
+struct MemoryFrame {
+    int frameId;
+    bool occupied;
+    std::string procName;
+
+    MemoryFrame(int id) : frameId(id), occupied(false) {}
 };
 
 #endif
