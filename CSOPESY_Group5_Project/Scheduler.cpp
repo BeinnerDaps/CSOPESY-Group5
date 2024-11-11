@@ -79,29 +79,80 @@ void Scheduler::deallocMemory(ProcessInfo& process) {
 }
 
 void Scheduler::Memoryreport(int cycle) {
+    //std::ostringstream filename;
+    //filename << "memory_stamp_" << cycle << ".txt";
+
+    //std::ofstream report(filename.str());
+    //if (!report.is_open()) return;
+
+    //// Write the timestamp and the number of processes in memory
+    //report << "Timestamp: " << data.getTimestamp() << "\n";
+    //report << "Number of processes in memory: " << procInMem << "\n";
+
+    //// Calculate external fragmentation
+    //int freeFrames = 0;
+    //for (const auto& frame : memoryPool) {
+    //    if (!frame.occupied) freeFrames++;
+    //}
+    //report << "Total external fragmentation (KB): " << freeFrames * config.frameMem << "\n";
+
+    //// ASCII representation of memory with process names
+    //report << "Memory layout:\n";
+    //for (size_t i = 0; i < memoryPool.size(); ++i) {
+    //    report << "[" << (memoryPool[i].occupied ? memoryPool[i].procName : " ") << "]";
+    //    if ((i + 1) % 64 == 0) report << "\n"; // Newline every 64 frames for readability
+    //}
+
+    // Construct file name
     std::ostringstream filename;
     filename << "memory_stamp_" << cycle << ".txt";
-
     std::ofstream report(filename.str());
     if (!report.is_open()) return;
 
-    // Write the timestamp and the number of processes in memory
+    // Write the timestamp
+    report << "======================================\n";
     report << "Timestamp: " << data.getTimestamp() << "\n";
+
+    // Number of processes in memory
     report << "Number of processes in memory: " << procInMem << "\n";
 
-    // Calculate external fragmentation
-    int freeFrames = 0;
+    // Calculate total external fragmentation
+    int freeMemory = 0;
+    int externalFragmentation = 0;
+    int currentFreeBlock = 0;
     for (const auto& frame : memoryPool) {
-        if (!frame.occupied) freeFrames++;
+        if (!frame.occupied) {
+            currentFreeBlock += config.frameMem;
+        }
+        else if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
+            externalFragmentation += currentFreeBlock;
+            currentFreeBlock = 0;
+        }
     }
-    report << "Total external fragmentation (KB): " << freeFrames * config.frameMem << "\n";
+    // Add last free block if it qualifies as external fragmentation
+    if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
+        externalFragmentation += currentFreeBlock;
+    }
+    report << "Total external fragmentation in KB: " << (externalFragmentation / 1024) << "\n\n";
 
-    // ASCII representation of memory with process names
-    report << "Memory layout:\n";
-    for (size_t i = 0; i < memoryPool.size(); ++i) {
-        report << "[" << (memoryPool[i].occupied ? memoryPool[i].procName : " ") << "]";
-        if ((i + 1) % 64 == 0) report << "\n"; // Newline every 64 frames for readability
+    // Print the memory layout in ASCII format
+    report << "----end---- = " << config.overallMem << "\n\n";
+    int address = config.overallMem;
+    for (int i = memoryPool.size() - 1; i >= 0; --i) {
+        if (memoryPool[i].occupied) {
+            report << address << "\nP" << memoryPool[i].procName << "\n";
+        }
+        else {
+            report << address << "\n";
+        }
+        address -= config.frameMem;
     }
+    report << "----start---- = 0\n";
+    report << "======================================\n";
+
+    // Close file
+    report.close();
+
 }
 
 void Scheduler::addProcess(const ProcessInfo& process) {
@@ -170,10 +221,10 @@ void Scheduler::coreFunction(int coreId) {
 
             if (!processQueue.empty()) {
                 process = processQueue.front();
+                processQueue.pop_front();
 
-                if (allocMemory(process)) {
-                    processQueue.pop_front();
-                } else {
+                if (!allocMemory(process)) {
+                    processQueue.push_back(process);
                     process = memoryQueue.front();
                     memoryQueue.pop_front();
                 }
