@@ -21,7 +21,7 @@ struct Config {
 struct MemoryFrame {
     int frameId;
     bool occupied;
-    std::string procName;
+    char procName;
 
     MemoryFrame(int id) : frameId(id), occupied(false) {}
 };

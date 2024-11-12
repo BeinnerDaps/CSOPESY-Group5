@@ -251,6 +251,7 @@ void Commands::schedulerTestCommand() {
 
 void Commands::schedulerStopCommand() {
     scheduler->stop();
+    std::cout << "Scheduler Stopped" << std::endl;
 }
 
 // Process reporting and display

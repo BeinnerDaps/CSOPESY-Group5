@@ -57,7 +57,7 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
     // Allocate the frames to the process
     for (int i = startFrame; i < startFrame + requiredFrames; ++i) {
         memoryPool[i].occupied = true;
-        memoryPool[i].procName = process.processName;
+        memoryPool[i].procName = process.processName.back();
     }
 
     // Store allocated frames
@@ -73,7 +73,7 @@ void Scheduler::deallocMemory(ProcessInfo& process) {
     // Free the allocated frames
     for (int i = startFrame; i < requiredFrames; ++i) {
         memoryPool[i].occupied = false;
-        memoryPool[i].procName = "";
+        memoryPool[i].procName = (char) 0;
     }
     procInMem--;
 }
@@ -136,18 +136,19 @@ void Scheduler::Memoryreport(int cycle) {
     report << "Total external fragmentation in KB: " << (externalFragmentation / 1024) << "\n\n";
 
     // Print the memory layout in ASCII format
-    report << "----end---- = " << config.overallMem << "\n\n";
+    report << "----end---- = " << config.overallMem << "\n";
     int address = config.overallMem;
-    for (int i = memoryPool.size() - 1; i >= 0; --i) {
+    for (int i = memoryPool.size() - 1; i >= 0; i -= (memoryPool.size()/4)) {
         if (memoryPool[i].occupied) {
-            report << address << "\nP" << memoryPool[i].procName << "\n";
+            report << "\n" << address << "\nP" << memoryPool[i].procName;
         }
         else {
-            report << address << "\n";
+            report << "\n" << address << "\n";
         }
-        address -= config.frameMem;
+        address -= config.procMem;
     }
-    report << "----start---- = 0\n";
+
+    report << "\n----start---- = 0\n";
     report << "======================================\n";
 
     // Close file
