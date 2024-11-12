@@ -211,6 +211,7 @@ void Scheduler::coreFunction(int coreId) {
     int delay = 0;
 
     while (running) {
+        Memoryreport(cycle);
         ProcessInfo process(-1, "defaultProcess", 100, "Timestamp");
         processAssigned = false;
 
@@ -252,6 +253,7 @@ void Scheduler::coreFunction(int coreId) {
             std::this_thread::sleep_for(std::chrono::milliseconds(delay));
             process.currentLine++;
             executedCycles++;
+            cycle++;
 
             {
                 std::lock_guard<std::mutex> lock(queueMutex);
@@ -286,10 +288,7 @@ void Scheduler::coreFunction(int coreId) {
             std::lock_guard<std::mutex> lock(queueMutex);
             memoryQueue.push_back(process);
             // std::cout << "[DEBUG] Process " << process.processName << " quantum depleted, re-queuing on core " << coreId << std::endl;
-        }
-
-        cycle++;
-        Memoryreport(cycle);    
+        }  
 
         cv.notify_all();
         std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq-1));
