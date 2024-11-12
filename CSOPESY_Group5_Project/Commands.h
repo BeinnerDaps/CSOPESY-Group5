@@ -38,7 +38,6 @@ public:
     void schedulerStopCommand();
     void reportUtilCommand();
     void displayProcess(const ProcessInfo& process);
-    int getRandomInt(int floor, int ceiling);
 };
 
 #endif

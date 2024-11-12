@@ -7,6 +7,12 @@
 #include <mutex>
 #include <sstream> 
 #include <condition_variable>
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include <algorithm>
+#include <random>
+#include <filesystem>
 
 #include "ProcessInfo.h"
 #include "Config.h"
@@ -22,6 +28,7 @@ private:
     std::vector<std::pair<ProcessInfo, int>> finishedProcesses;
     std::vector<ProcessInfo> runningProcesses;
     std::vector<std::thread> coreThreads;
+    std::thread generatorThread;
     std::mutex queueMutex;
     std::condition_variable cv;
     bool running;
@@ -41,6 +48,8 @@ public:
     ProcessInfo& getProcess(const std::string& name);
     void start();
     void stop();
+    void processGenerator();
+    int getRandomInt(int floor, int ceiling);
     void addProcess(const ProcessInfo& process);
     std::vector<std::pair<ProcessInfo, int>> getFinishedProcesses();
     std::vector<ProcessInfo> getRunningProcesses();

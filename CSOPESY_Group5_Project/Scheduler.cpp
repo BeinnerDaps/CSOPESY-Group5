@@ -1,9 +1,4 @@
 #include "Scheduler.h"
-#include <iostream>
-#include <fstream>
-#include <chrono>
-#include <thread>
-#include <algorithm>
 
 Scheduler::Scheduler(const Config& config)
     : config(config), running(true) {
@@ -12,6 +7,8 @@ Scheduler::Scheduler(const Config& config)
     }
 
     for (int i = 0; i < config.numFrame; ++i) { memoryPool.emplace_back(i); }
+
+    start();
 }
 
 Scheduler::~Scheduler() {
@@ -21,15 +18,55 @@ Scheduler::~Scheduler() {
             thread.join();
         }
     }
+
+    if (generatorThread.joinable()) {
+        generatorThread.join(); // Ensure generatorThread is joined on destruction
+    }
 }
 
 void Scheduler::start() {
     running = true;
+    generatorThread = std::thread(&Scheduler::processGenerator, this);
 }
 
 void Scheduler::stop() {
     running = false;
     cv.notify_all();
+
+    if (generatorThread.joinable()) {
+        generatorThread.join();
+    }
+
+    std::cout << "Memory reports are found in memory_reports folder" << std::endl;
+}
+
+void Scheduler::processGenerator() {
+    int processID = 1;
+
+    while (running) {
+        ProcessInfo process(
+            processID++,
+            "process" + std::to_string(processID),
+            getRandomInt(config.minIns, config.maxIns),
+            data.getTimestamp(),
+            false
+        );
+
+        addProcess(process); // Add to scheduler
+        std::this_thread::sleep_for(std::chrono::milliseconds(getRandomInt(100, 1000))); // Control delay between new processes
+        
+    }
+
+    std::cout << "Scheduler-stop: Process generation stopped." << std::endl;
+}
+
+int Scheduler::getRandomInt(int floor, int ceiling) {
+    // Initialize random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(floor, ceiling);
+
+    return dist(gen);
 }
 
 bool Scheduler::allocMemory(ProcessInfo& process) {
@@ -79,34 +116,16 @@ void Scheduler::deallocMemory(ProcessInfo& process) {
 }
 
 void Scheduler::Memoryreport(int cycle) {
-    //std::ostringstream filename;
-    //filename << "memory_stamp_" << cycle << ".txt";
+    std::string folderName = "memory_reports";
 
-    //std::ofstream report(filename.str());
-    //if (!report.is_open()) return;
+    std::filesystem::create_directory(folderName);
 
-    //// Write the timestamp and the number of processes in memory
-    //report << "Timestamp: " << data.getTimestamp() << "\n";
-    //report << "Number of processes in memory: " << procInMem << "\n";
-
-    //// Calculate external fragmentation
-    //int freeFrames = 0;
-    //for (const auto& frame : memoryPool) {
-    //    if (!frame.occupied) freeFrames++;
-    //}
-    //report << "Total external fragmentation (KB): " << freeFrames * config.frameMem << "\n";
-
-    //// ASCII representation of memory with process names
-    //report << "Memory layout:\n";
-    //for (size_t i = 0; i < memoryPool.size(); ++i) {
-    //    report << "[" << (memoryPool[i].occupied ? memoryPool[i].procName : " ") << "]";
-    //    if ((i + 1) % 64 == 0) report << "\n"; // Newline every 64 frames for readability
-    //}
-
-    // Construct file name
     std::ostringstream filename;
-    filename << "memory_stamp_" << cycle << ".txt";
+
+    filename << folderName << "/memory_stamp_" << cycle << ".txt";
+
     std::ofstream report(filename.str());
+
     if (!report.is_open()) return;
 
     // Write the timestamp
@@ -210,16 +229,14 @@ void Scheduler::coreFunction(int coreId) {
     int execCycles = 0;
     int delay = 0;
 
-    while (running) {
+    while (true) {
         Memoryreport(cycle);
         ProcessInfo process(-1, "defaultProcess", 100, "Timestamp");
         processAssigned = false;
 
         {
             std::unique_lock<std::mutex> lock(queueMutex);
-            cv.wait(lock, [this]() { return !processQueue.empty() || !memoryQueue.empty() || !running; });
-            
-            if (!running && processQueue.empty() && memoryQueue.empty()) { break; }
+            cv.wait(lock, [this]() { return !processQueue.empty() || !memoryQueue.empty(); });
 
             if (!processQueue.empty()) {
                 process = processQueue.front();
@@ -247,7 +264,7 @@ void Scheduler::coreFunction(int coreId) {
         processCompleted = false;
         executedCycles = 0;
         execCycles = (config.scheduler == "rr") ? config.quantumCycles : process.totalLine;
-        delay = (config.delaysPerExec <= 1) ? 1 : config.delaysPerExec-1;
+        delay = (config.delaysPerExec <= 1) ? 1 : config.delaysPerExec;
 
         while (executedCycles < execCycles && process.currentLine < process.totalLine) {
             std::this_thread::sleep_for(std::chrono::milliseconds(delay));
@@ -291,7 +308,7 @@ void Scheduler::coreFunction(int coreId) {
         }  
 
         cv.notify_all();
-        std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq-1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(config.batchProcessFreq));
     }
 }
 
