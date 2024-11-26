@@ -242,19 +242,19 @@ void Commands::schedulerStopCommand() {
 void Commands::writeProcessReport(std::ostream& os) {
     os << scheduler->getMetrics();
 
-    os << "\nWaiting Queue:\n";
+    /*os << "\nWaiting Queue:\n";
     for (const auto& process : scheduler->getWaitingProcesses()) {
         os << process.processName << "\tProcess created at: " << process.timeStamp
             << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << "\n";
-    }
+    }*/
 
-    os << "\nIn Memory:\n";
+    /*os << "\nIn Memory:\n";
     for (const auto& process : scheduler->getWaitingMemory()) {
         os << process.processName << "\tProcess created at: " << process.timeStamp
             << "\tCore: N/A\t" << process.currentLine << " / " << process.totalLine << "\n";
-    }
+    }*/
 
-    os << "\nRunning Queue:\n";
+    os << "\nRunning Processes:\n";
     for (const auto& process : scheduler->getRunningProcesses()) {
         os << process.processName << "\tProcess created at: " << process.timeStamp
             << "\tCore: " << process.assignedCore << "\t" << process.currentLine << " / " << process.totalLine << "\n";
