@@ -41,7 +41,7 @@ void Scheduler::stop() {
 // Continuously Generate and Add New Processes to Memory
 void Scheduler::processGenerator() {
     while (generator) {
-        if (processID > 50) { continue; }
+        if (processID > 30) { continue; }
         ProcessInfo process(
             processID++,
             "process" + std::to_string(processID),
@@ -53,8 +53,7 @@ void Scheduler::processGenerator() {
         );
         
         addProcess(process); 
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(getRandomInt(100, 1000)));
+        std::this_thread::sleep_for(std::chrono::milliseconds(getRandomInt(10, 100)));
     }
     std::cout << "[Scheduler-stop] Process generation stopped." << std::endl;
 }
@@ -66,15 +65,10 @@ void Scheduler::addProcess(ProcessInfo& process) {
 }
 
 bool Scheduler::allocMemory(ProcessInfo& process) {
-    int totalPages = process.procMemsize / config.frameMem /*+ (process.procMemsize % config.frameMem != 0)*/;
+    int totalPages = process.procMemsize / config.frameMem + (process.procMemsize % config.frameMem != 0);
 
     for (const auto& frame : memoryPool) {
-        if (frame.occupied) {
-            std::wcout << frame.procID << " ";
-        }
-        else {
-            std::wcout << frame.occupied << " ";
-        }
+        std::wcout << frame.occupied << " ";
     }
     std::cout << "\n";
 
@@ -95,8 +89,6 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
     if (freeFrames.size() < totalPages) { return false; }
 
     // Allocate the frames to the process
-    {
-        std::unique_lock<std::mutex> lock(memPoolMutex);
 
         for (int frame : freeFrames) {
             process.pageTable.push_back(frame);
@@ -105,7 +97,6 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
             memoryPool[frame].procName = process.processName;
             memoryPool[frame].procAge = counter;
         }
-    }
 
     counter++;
     procInMem++;
@@ -114,23 +105,19 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
     return true;
 }
 
-void Scheduler::deallocMemory(ProcessInfo& process) {
-    std::unique_lock<std::mutex> lock(memPoolMutex);
-
+bool Scheduler::deallocMemory(ProcessInfo& process) {
     for (int frame : process.pageTable) {
         memoryPool[frame].occupied = false;
+        memoryPool[frame].procID = 0;
         memoryPool[frame].procName = std::string();
         memoryPool[frame].procAge = INT_MAX;
     }
-    
-    process.pageTable.clear();
-
-    writeBackingStore(process);
-    std::cout << "[DEBUG] [Stored] " << process.processName << " " << std::endl;
     procInMem--;
+    process.pageTable.clear();
+    return (writeBackingStore(process));
 }
 
-void Scheduler::evictOldestProc() {
+bool Scheduler::evictOldestProc() {
     std::string oldest = std::string();
     int minAge = INT_MAX;
 
@@ -151,10 +138,12 @@ void Scheduler::evictOldestProc() {
         });  
 
     if (it != memoryQueue.end()) {
-        std::unique_lock<std::mutex> lock(queueMutex);
-        deallocMemory(*it);
+        ProcessInfo processToDealloc = *it;
         memoryQueue.erase(it);
+        return deallocMemory(processToDealloc);
     }
+
+    return false;
 }
 
 // Open the file in write mode to clear its contents
@@ -174,8 +163,7 @@ void Scheduler::clearJsonFile(const std::string& fileName) {
     std::cout << "[DEBUG] JSON file cleared: " << fileName << std::endl;
 }
 
-void Scheduler::writeBackingStore(const ProcessInfo& process) {
-    
+bool Scheduler::writeBackingStore(const ProcessInfo& process) {
     try {
         std::unique_lock<std::mutex> lock(fileMutex);
 
@@ -203,19 +191,16 @@ void Scheduler::writeBackingStore(const ProcessInfo& process) {
         updateFile << BS_process.dump(4);
         updateFile.close();
 
-        logBackingStore(process, "[Stored]");
+        return logBackingStore(process, "[Stored]");
     } 
     catch (const std::runtime_error& e) {
         std::cerr << "[ERROR] " << e.what() << std::endl;
     }
+
+    return false;
 }
 
-ProcessInfo Scheduler::readBackingStore() {
-    ProcessInfo restoredProcess(0, std::string(), std::string(), 0, 0, 0, false);
-
-    fs::path filePath("Backing_Store.json");
-    if (!fs::file_size(filePath)) { return restoredProcess; }
-
+void Scheduler::readBackingStore() {
     try {
         std::unique_lock<std::mutex> lock(fileMutex);
 
@@ -226,20 +211,24 @@ ProcessInfo Scheduler::readBackingStore() {
         readFile >> BS_process;
         readFile.close();
 
-        if (BS_process.empty()) { return restoredProcess; }
+        if (BS_process.empty()) { return; }
 
         // Retrieve the first process from BS
-        auto& processDetails = BS_process[0];
+        for (auto& processDetails : BS_process) {
+            ProcessInfo restoredProcess(
+                processDetails["processID"],
+                processDetails["processName"],
+                processDetails["arrivalTime"],
+                processDetails["procMemsize"],
+                processDetails["currentLine"],
+                processDetails["totalLine"],
+                processDetails["isFinished"]
+            );
 
-        restoredProcess.processID = processDetails["processID"];
-        restoredProcess.processName = processDetails["processName"];
-        restoredProcess.arrivalTime = processDetails["arrivalTime"];
-        restoredProcess.procMemsize = processDetails["procMemsize"];
-        restoredProcess.currentLine = processDetails["currentLine"];
-        restoredProcess.totalLine = processDetails["totalLine"];
-        restoredProcess.isFinished = processDetails["isFinished"];
+            backingStore.push_back(restoredProcess);  // Add to deque
+        }
 
-        BS_process.erase(BS_process.begin());
+        BS_process.clear();
 
         // Save the updated list back to the JSON file
         std::ofstream updateFile("Backing_Store.json");
@@ -247,18 +236,13 @@ ProcessInfo Scheduler::readBackingStore() {
 
         updateFile << BS_process.dump(4);
         updateFile.close();
-
-        logBackingStore(restoredProcess, "[Retrieved]");
     }
     catch (const std::runtime_error& e) {
         std::cerr << "[ERROR] " << e.what() << std::endl;
     } 
-
-    std::cout << "[DEBUG] " << "[Retrieved] " << restoredProcess.processName << std::endl;
-    return restoredProcess;
 }
 
-void Scheduler::logBackingStore(const ProcessInfo& process, const std::string& action) {
+bool Scheduler::logBackingStore(const ProcessInfo& process, const std::string& action) {
     try {
         std::ofstream logFile("BS_Logs.json", std::ios::app);
 
@@ -274,33 +258,40 @@ void Scheduler::logBackingStore(const ProcessInfo& process, const std::string& a
 
         logFile << logEntry.dump(4);
         logFile.close();
+        std::cout << "[DEBUG] " << action << " " << process.processName << std::endl;
+        return true;
+        
     }
     catch (const std::exception&) {
-        std::cout << "[ERROR] Failed to open BackingStoreLogs.json" << std::endl;
+        std::cerr << "[ERROR] Failed to open BackingStoreLogs.json" << std::endl;
     }
+
+    return false;
 }
 
 void Scheduler::checkWaiting() {
     ProcessInfo process(0, "null", "null", 0, 0, 0, false);
-    
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
     {
         std::unique_lock<std::mutex> lock(queueMutex);
 
-        if (!processQueue.empty()) {
+        if (!processQueue.empty()) { 
             process = processQueue.front();
             processQueue.pop_front();
         }
         else {
             process = readBackingStore();
         }
-    }
 
-    if (!process.processID) { return; }  
+        if (!process.processID) { return; }
+    }
 
     while (!allocMemory(process)) {
-        evictOldestProc();
+        if (!evictOldestProc()) { continue; }
     }
-
+   
     {
         std::unique_lock<std::mutex> lock(queueMutex);
         memoryQueue.push_back(process);

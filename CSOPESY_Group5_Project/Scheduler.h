@@ -32,8 +32,11 @@ private:
     std::atomic<bool> running, generator;
 
     std::vector<MemoryFrame> memoryPool;
+
     std::deque<ProcessInfo> processQueue;
     std::deque<ProcessInfo> memoryQueue;
+    std::deque<ProcessInfo> backingStore;
+
     std::vector<std::pair<ProcessInfo, int>> finishedProcesses;
     std::vector<ProcessInfo> runningProcesses;
 
@@ -51,12 +54,12 @@ private:
 
     void checkWaiting();
     bool allocMemory(ProcessInfo& process);
-    void deallocMemory(ProcessInfo& process);
-    void evictOldestProc();
+    bool deallocMemory(ProcessInfo& process);
+    bool evictOldestProc();
  
-    void logBackingStore(const ProcessInfo& process, const std::string& action);
-    void writeBackingStore(const ProcessInfo& process);
-    ProcessInfo readBackingStore();
+    bool logBackingStore(const ProcessInfo& process, const std::string& action);
+    bool writeBackingStore(const ProcessInfo& process);
+    void readBackingStore();
     void clearJsonFile(const std::string& fileName);
 
     void Memoryreport(int cycle);
