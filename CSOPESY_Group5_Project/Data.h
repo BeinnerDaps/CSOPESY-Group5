@@ -9,9 +9,9 @@ class Data {
 
 public:
     Data() {}
+    int nextProcessID = 1;
     std::vector<ProcessInfo> processList;
     ProcessInfo& getProcess(const std::string& processName);
-    void createProcess(const std::string& processName);
     const std::vector<ProcessInfo>& getProcessList() const {
         return processList;
     }

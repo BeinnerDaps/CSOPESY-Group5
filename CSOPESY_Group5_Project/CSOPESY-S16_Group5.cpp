@@ -1,15 +1,15 @@
 // MAIN
 
+#include "Data.h"
+#include "Screen.h"
+#include "Commands.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <chrono>
-#include <cstdlib> // For clearing functionality
-
-#include "Data.h"
-#include "Screen.h"
-#include "Commands.h"
+#include <cstdlib>
 
 Data data;
 Screen screen;
@@ -17,8 +17,10 @@ Commands commands;
 
 int main() {
     std::string command;
-    commands.initialScreen();
-    commands.initialize();
+    std::string configtxt = "config.txt";
+
+    screen.menuView();
+    commands.initialize(configtxt);
 
     // Main loop to continuously take in commands, until exit.
     while (true) {

@@ -9,41 +9,13 @@
 
 static int nextProcessID = 1; // For unique process IDs
 
-std::string Commands::getCurrentTimestamp() {
-    auto now = std::chrono::system_clock::now();
-    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
-    auto epoch = now_ms.time_since_epoch();
-    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(epoch);
-    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(epoch - seconds);
-
-    std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-    std::tm localTime;
-#ifdef _WIN32
-    localtime_s(&localTime, &now_c);
-#else
-    localtime_r(&now_c, &localTime);
-#endif
-
-    std::ostringstream oss;
-    oss << std::put_time(&localTime, "%m/%d/%Y, %I:%M:%S");
-    oss << "." << std::setfill('0') << std::setw(3) << milliseconds.count();
-    oss << (localTime.tm_hour < 12 ? " AM" : " PM");
-
-    return oss.str();
-}
-
 // Constructor
 Commands::Commands() : scheduler(nullptr) {}
 
-void Commands::initialize() {
+// 0. Initialize Program
+void Commands::initialize(const std::string& filename) {
     if (scheduler == nullptr) {
-        std::string filename;
-        bool fileLoaded = false;
-
-        while (!fileLoaded) {
-            std::cout << "Please enter the path to the config file (e.g., config.txt): ";
-            std::getline(std::cin, filename);
-
+        while (true) {
             std::ifstream file(filename);
             if (!file.is_open()) {
                 std::cerr << "Error: Could not open the specified file. Please enter a valid path." << std::endl;
@@ -55,7 +27,7 @@ void Commands::initialize() {
                 config = parseConfigFile(filename);
                 scheduler = std::make_unique<Scheduler>(config);
                 std::cout << "Scheduler initialized with " << config.numCpu << " CPUs." << std::endl;
-                fileLoaded = true;
+                break;
             }
             catch (const std::exception& e) {
                 std::cerr << "Error parsing config file: " << e.what() << std::endl;
@@ -64,6 +36,7 @@ void Commands::initialize() {
     }
 }
 
+// 0.1. Parse Config.txt File
 Config Commands::parseConfigFile(const std::string& filename) {
     Config config;
     std::ifstream file(filename);
@@ -86,7 +59,8 @@ Config Commands::parseConfigFile(const std::string& filename) {
         else if (key == "delay-per-exec") iss >> config.delaysPerExec;
         else if (key == "max-overall-mem") iss >> config.overallMem;
         else if (key == "mem-per-frame") iss >> config.frameMem;
-        else if (key == "mem-per-proc") iss >> config.procMem;
+        else if (key == "min-mem-per-proc") iss >> config.procMinMem;
+        else if (key == "max-mem-per-proc") iss >> config.procMaxMem;
     }
 
     if (!config.scheduler.empty() && config.scheduler.front() == '"' && config.scheduler.back() == '"') {
@@ -101,38 +75,62 @@ Config Commands::parseConfigFile(const std::string& filename) {
     return config;
 }
 
-void Commands::initialScreen() {
-    clearScreen();
-    menuView();
+// Process Commands
+void Commands::processCommand(const std::string& input) {
+
+    const std::unordered_map<std::string, std::function<void(const std::string&)>> CommandActions = {
+        { "marquee", [this](const std::string& input) { marqueeCommand(input); } },
+        { "screen", [this](const std::string& input) { screenCommand(input); } },
+        { "nvidia-smi", [this](const std::string&) { nvidsmiCommand(); } },
+        { "scheduler-test", [this](const std::string&) { schedulerTestCommand(); } },
+        { "scheduler-stop", [this](const std::string&) { schedulerStopCommand(); } },
+        { "report-util", [this](const std::string&) {  reportUtilCommand(); } },
+        { "clear", [this](const std::string&) {  menuView(); } },
+        { "exit", [this](const std::string&) {  exitCommand(); } }
+    };
+
+    std::istringstream iss(input);
+    std::string command;
+    iss >> command;
+
+    auto it = CommandActions.find(command);
+
+    if (it == CommandActions.end()) {
+        std::cout << "ERROR: Unrecognized Command" << std::endl;
+        return;
+    }
+
+    it->second(input);
 }
 
-void Commands::processCommand(const std::string& command) {
-    if (command.find("screen") != std::string::npos) {
-        screenCommand(command);
-    }
-    else if (command == "scheduler-test") {
-        schedulerTestCommand();
-    }
-    else if (command == "scheduler-stop") {
-        schedulerStopCommand();
-    }
-    else if (command == "report-util") {
-        reportUtilCommand();
-    }
-    else if (command == "clear") {
-        clearScreen();
+// 1. Marquee Command
+void Commands::marqueeCommand(const std::string& command) {
+    std::istringstream iss(command);
+    std::string text;
+    std::string marq;
+    int refresh = 0, poll = 0;
+    iss >> marq >> text >> refresh >> poll;
+
+    if (!refresh) { refresh = 50; } // Default refresh rate
+    if (!poll) { poll = 50; } // Default poll rate
+    if (text.empty()) { text = "threaded"; }
+
+    Marquee marquee(refresh, poll, true);
+
+    if (text == "threaded") { 
+        marquee.startThread(); 
+        marqueeView(); 
         menuView();
-    }
-    else if (command == "exit") {
-        std::cout << "Terminating Serial OS, Thank you!" << std::endl;
-        exit(0);
-    }
-    else {
-        std::cout << "ERROR: Unrecognized command." << std::endl;
+    } else if (text == "nonthreaded") { 
+        marquee.startNonThread(); 
+        marqueeView(); 
+        menuView();
+    } else { 
+        std::cout << "ERROR: Incomplete parameters" << std::endl; 
     }
 }
 
-// Screen-related commands
+// 2. Screen Command
 void Commands::screenCommand(const std::string& command) {
     std::string subCommand, name;
     std::vector<std::string> subCommands = { "-r", "-s", "-ls" };
@@ -145,17 +143,19 @@ void Commands::screenCommand(const std::string& command) {
         return;
     }
 
-    auto it = std::find(subCommands.begin(), subCommands.end(), subCommand);
-    int found = (it != subCommands.end()) ? std::distance(subCommands.begin(), it) : -1;
+    auto it = find(subCommands.begin(), subCommands.end(), subCommand);
+
+    int found = (it != subCommands.end()) ? distance(subCommands.begin(), it) : -1;
 
     switch (found) {
     case 0: rSubCommand(name); break; // Reattach
     case 1: sSubCommand(name); break; // Start a new process
-    case 2: lsSubCommand(); break; // List processes
+    case 2: writeProcessReport(std::cout); break; // List processes
     default: std::cout << "ERROR: Invalid Subcommand" << std::endl; break;
     }
 }
 
+// 2.1. Find Existing Process
 void Commands::rSubCommand(const std::string& name) {
     clearScreen();
     std::cout << "Attempting to reattach to process: " << name << std::endl;
@@ -169,7 +169,7 @@ void Commands::rSubCommand(const std::string& name) {
     }
 }
 
-
+// 2.2. Create New Process
 void Commands::sSubCommand(const std::string& name) {
     try {
         ProcessInfo& existingProcess = scheduler->getProcess(name);
@@ -177,54 +177,30 @@ void Commands::sSubCommand(const std::string& name) {
         enterProcessScreen(existingProcess);
     }
     catch (const std::runtime_error& e) {
-        std::cout << "Creating new process \"" << name << "\".\n";
+        std::cout << "Creating new process \"" << name << "\"." << std::endl;
 
-        ProcessInfo newProcess(nextProcessID++, name, scheduler->getRandomInt(int(config.minIns), int(config.maxIns)), getCurrentTimestamp(), false);
+        ProcessInfo newProcess(
+            nextProcessID++,
+            name,
+            getTimestamp(),
+            scheduler->getRandomInt(config.procMinMem, config.procMaxMem),
+            0,
+            scheduler->getRandomInt(config.minIns, config.maxIns),
+            false
+        );
+
         scheduler->addProcess(newProcess);
-
         enterProcessScreen(newProcess);
     }
 }
 
-void Commands::enterProcessScreen(ProcessInfo& process) {
-    clearScreen();
-    bool isRunning = true;
+// 3. Method to open Nvidia SMI processes
+void Commands::nvidsmiCommand() {
 
-    std::cout << "Process: " << process.processName << "\nID: " << process.processID
-        << "\nTotal Lines: " << process.totalLine << std::endl;
-
-    while (isRunning) {
-        if (process.isFinished) {
-            std::cout << "Process has finished.\n";
-            isRunning = false;
-            continue;
-        }
-
-        std::string command;
-        std::cout << "> ";
-        std::getline(std::cin, command);
-
-        if (command == "process-smi") {
-            displayProcessSmi(process);
-        }
-        else if (command == "exit") {
-            std::cout << "Exiting process screen...\n";
-            isRunning = false;
-            initialScreen();
-        }
-        else {
-            std::cout << "Invalid command. Available commands: 'process-smi', 'exit'.\n";
-        }
-    }
+    //nvidiaSMIView(listAllProcess());
 }
 
-void Commands::displayProcessSmi(ProcessInfo& process) {
-    std::cout << "Process: " << process.processName << "\nID: " << process.processID
-        << "\nCurrent instruction line: " << process.currentLine
-        << "\nLines of code: " << process.totalLine << "\n\n";
-}
-
-// Scheduler-related commands
+// 4. Scheduler Start Command
 void Commands::schedulerTestCommand() {
     std::cout << "Scheduler-start: Process generation started." << std::endl;
 
@@ -232,8 +208,10 @@ void Commands::schedulerTestCommand() {
         std::cout << "Scheduler is not initialized. Please run 'initialize' first." << std::endl;
         return;
     }
+    scheduler->start();
 }
 
+// 5. Scheduler Stop Command
 void Commands::schedulerStopCommand() {
     scheduler->stop();
 }
@@ -256,7 +234,7 @@ void Commands::writeProcessReport(std::ostream& os) {
 
     os << "\nRunning Processes:\n";
     for (const auto& process : scheduler->getRunningProcesses()) {
-        os << process.processName << "\tProcess created at: " << process.timeStamp
+        os << process.processName << "\tProcess created at: " << process.arrivalTime
             << "\tCore: " << process.assignedCore << "\t" << process.currentLine << " / " << process.totalLine << "\n";
     }
 
@@ -264,14 +242,10 @@ void Commands::writeProcessReport(std::ostream& os) {
     for (const auto& entry : scheduler->getFinishedProcesses()) {
         const auto& process = entry.first;
         int coreId = entry.second;
-        os << process.processName << "\tProcess created at: " << process.timeStamp
+        os << process.processName << "\tProcess created at: " << process.arrivalTime
             << "\tFinished\tCore: " << coreId
             << "\t" << process.totalLine << " / " << process.totalLine << "\n";
     }
-}
-
-void Commands::lsSubCommand() {
-    writeProcessReport(std::cout);
 }
 
 void Commands::reportUtilCommand() {
@@ -279,19 +253,13 @@ void Commands::reportUtilCommand() {
     if (logFile.is_open()) {
         writeProcessReport(logFile);
         logFile.close();
-        std::cout << "Report saved to csopesy-log.txt\n";
+        std::cout << "Report saved to csopesy-log.txt" << std::endl;
     }
     else {
-        std::cerr << "Error: Could not open csopesy-log.txt for writing.\n";
+        std::cerr << "Error: Could not open csopesy-log.txt for writing." << std::endl;
     }
 }
 
-// Function to display process details
-void Commands::displayProcess(const ProcessInfo& process) {
-    std::cout << "Displaying Process Details:" << std::endl;
-    std::cout << "Process Name: " << process.processName << std::endl;
-    std::cout << "Current Line: " << process.currentLine << std::endl;
-    std::cout << "Total Lines: " << process.totalLine << std::endl;
-    std::cout << "Timestamp: " << process.timeStamp << std::endl;
-    std::cout << "Status: " << (process.isFinished ? "Finished" : "Running") << std::endl;
+void Commands::exitCommand() {
+    (getCurrent() == "menuView") ? exit(0) : menuView();
 }

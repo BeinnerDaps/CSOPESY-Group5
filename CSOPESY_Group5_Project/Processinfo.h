@@ -4,19 +4,37 @@
 #include <string>
 
 class ProcessInfo {
+
 public:
     int processID;
     std::string processName;
-    int totalLine;
+    std::string arrivalTime;
+    int procMemsize;
     int currentLine;
-    int assignedCore;
-    std::string timeStamp;
+    int totalLine;
     bool isFinished;
-    std::pair<int, int> procMemloc;
+    int assignedCore;
+    std::vector<int> pageTable;
 
-    ProcessInfo(int id, const std::string& name, int lines, const std::string& timestamp, bool finished = false)
-        : processID(id), processName(name), totalLine(lines), currentLine(0), assignedCore(-1),
-        timeStamp(timestamp), isFinished(finished), procMemloc({-1,-1}) {}
+    ProcessInfo(
+        int id,
+        const std::string& name,
+        const std::string& arrivetime,
+        int size,
+        int currentline,
+        int totallines,
+        bool finished
+        
+    ) : processID(id),
+        processName(name),
+        arrivalTime(arrivetime),
+        procMemsize(size),
+        currentLine(currentline),
+        totalLine(totallines),
+        isFinished(finished),
+        assignedCore(-1),
+        pageTable{}
+    {}
 };
 
 #endif

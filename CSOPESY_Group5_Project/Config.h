@@ -14,16 +14,25 @@ struct Config {
     
     int overallMem;
     int frameMem;
-    int procMem;
+    int procMinMem;
+    int procMaxMem;
     int numFrame;
 };
 
 struct MemoryFrame {
     int frameId;
     bool occupied;
-    char procName;
+    std::string procName;
+    int procID;
+    int procAge;
 
-    MemoryFrame(int id) : frameId(id), occupied(false) {}
+    MemoryFrame(int id) 
+        : frameId(id),
+          occupied(false),
+          procID(0),
+          procName(std::string()),
+          procAge(INT_MAX)
+    {}
 };
 
 #endif

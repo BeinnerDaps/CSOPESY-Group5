@@ -4,14 +4,7 @@
 #include <iomanip>
 #include <sstream>
 #include "Commands.h"
-
-static int nextProcessID = 1; // For unique process IDs
-
-void Data::createProcess(const std::string& processName) {
-    std::string timestamp = Commands::getCurrentTimestamp();
-    ProcessInfo newProcess(nextProcessID++, processName, 100, timestamp);
-    processList.push_back(newProcess);
-}
+ // For unique process IDs
 
 ProcessInfo& Data::getProcess(const std::string& processName) {
     for (auto& process : processList) {
@@ -26,7 +19,7 @@ void Data::listAllProcess() {
     for (const auto& process : processList) {
         std::cout << "Process Name: " << process.processName
             << ", Status: " << (process.isFinished ? "Finished" : "Running")
-            << ", Timestamp: " << process.timeStamp;
+            << ", Timestamp: " << process.arrivalTime;
 
         if (!process.isFinished) {
             std::cout << ", Current Line: " << process.currentLine;
