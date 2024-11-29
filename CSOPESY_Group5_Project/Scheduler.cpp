@@ -67,10 +67,10 @@ void Scheduler::addProcess(ProcessInfo& process) {
 bool Scheduler::allocMemory(ProcessInfo& process) {
     int totalPages = process.procMemsize / config.frameMem + (process.procMemsize % config.frameMem != 0);
 
-    for (const auto& frame : memoryPool) {
+   /* for (const auto& frame : memoryPool) {
         std::wcout << frame.occupied << " ";
     }
-    std::cout << "\n";
+    std::cout << "\n";*/
 
     std::vector<int> freeFrames;
     {
@@ -165,12 +165,12 @@ void Scheduler::clearJsonFile(const std::string& fileName) {
 
 bool Scheduler::writeBackingStore(const ProcessInfo& process) {
     try {
-        std::unique_lock<std::mutex> lock(fileMutex);
+        //std::unique_lock<std::mutex> lock(queueMutex);
 
         std::ifstream readFile("Backing_Store.json");
         if (!readFile.is_open()) { throw std::runtime_error("Failed to open Backing_Store.json."); }
 
-        json BS_process = json::array();
+        json BS_process;
         readFile >> BS_process;
         readFile.close();
 
@@ -200,35 +200,36 @@ bool Scheduler::writeBackingStore(const ProcessInfo& process) {
     return false;
 }
 
-void Scheduler::readBackingStore() {
+ProcessInfo Scheduler::readBackingStore() {
+    ProcessInfo restoredProcess(0, std::string(), std::string(), 0, 0, 0, false);
+
+    fs::path filePath("Backing_Store.json");
+    if (!fs::file_size(filePath) || !processQueue.empty()) { return restoredProcess; }
+
     try {
-        std::unique_lock<std::mutex> lock(fileMutex);
+        //std::unique_lock<std::mutex> lock(queueMutex);
 
         std::ifstream readFile("Backing_Store.json");
         if (!readFile.is_open()) { throw std::runtime_error("Failed to open Backing_Store.json."); }
 
-        json BS_process = json::array();
+        json BS_process;
         readFile >> BS_process;
         readFile.close();
 
-        if (BS_process.empty()) { return; }
+        if (BS_process.empty()) { return restoredProcess; }
 
         // Retrieve the first process from BS
-        for (auto& processDetails : BS_process) {
-            ProcessInfo restoredProcess(
-                processDetails["processID"],
-                processDetails["processName"],
-                processDetails["arrivalTime"],
-                processDetails["procMemsize"],
-                processDetails["currentLine"],
-                processDetails["totalLine"],
-                processDetails["isFinished"]
-            );
+        auto& processDetails = BS_process[0];
 
-            backingStore.push_back(restoredProcess);  // Add to deque
-        }
+        restoredProcess.processID = processDetails["processID"];
+        restoredProcess.processName = processDetails["processName"];
+        restoredProcess.arrivalTime = processDetails["arrivalTime"];
+        restoredProcess.procMemsize = processDetails["procMemsize"];
+        restoredProcess.currentLine = processDetails["currentLine"];
+        restoredProcess.totalLine = processDetails["totalLine"];
+        restoredProcess.isFinished = processDetails["isFinished"];
 
-        BS_process.clear();
+        BS_process.erase(BS_process.begin());
 
         // Save the updated list back to the JSON file
         std::ofstream updateFile("Backing_Store.json");
@@ -236,9 +237,14 @@ void Scheduler::readBackingStore() {
 
         updateFile << BS_process.dump(4);
         updateFile.close();
+
+        logBackingStore(restoredProcess, "[Retrieved]");
+        return restoredProcess;
     }
     catch (const std::runtime_error& e) {
         std::cerr << "[ERROR] " << e.what() << std::endl;
+        ProcessInfo restoredProcess(0, std::string(), std::string(), 0, 0, 0, false);
+        return restoredProcess;
     } 
 }
 
@@ -281,12 +287,12 @@ void Scheduler::checkWaiting() {
             process = processQueue.front();
             processQueue.pop_front();
         }
-        else {
+        else {  
             process = readBackingStore();
         }
-
-        if (!process.processID) { return; }
     }
+
+    if (!process.processID) { return; }
 
     while (!allocMemory(process)) {
         if (!evictOldestProc()) { continue; }
@@ -309,14 +315,12 @@ void Scheduler::coreFunction(int coreId) {
     while (running) {
         ProcessInfo process(0, std::string(), std::string(), 0, 0, 0, false);
         processAssigned = false;
-
         checkWaiting();
 
         {
             std::unique_lock<std::mutex> lock(queueMutex);
-
             cv.wait(lock, [this]() {
-                return !processQueue.empty() || !readBackingStore().processID || !memoryQueue.empty();
+                return !processQueue.empty() || !memoryQueue.empty();
             });
 
             if (!memoryQueue.empty()) {

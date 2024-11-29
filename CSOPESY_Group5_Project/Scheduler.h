@@ -59,7 +59,7 @@ private:
  
     bool logBackingStore(const ProcessInfo& process, const std::string& action);
     bool writeBackingStore(const ProcessInfo& process);
-    void readBackingStore();
+    ProcessInfo readBackingStore();
     void clearJsonFile(const std::string& fileName);
 
     void Memoryreport(int cycle);
