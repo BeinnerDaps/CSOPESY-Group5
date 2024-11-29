@@ -101,7 +101,7 @@ bool Scheduler::allocMemory(ProcessInfo& process) {
     counter++;
     procInMem++;
 
-    std::cout << "[DEBUG] Alloc: " << process.processName << std::endl;
+    //std::cout << "[DEBUG] Alloc: " << process.processName << std::endl;
     return true;
 }
 
@@ -132,15 +132,16 @@ bool Scheduler::evictOldestProc() {
         }
     }
     
-    auto it = std::find_if(memoryQueue.begin(), memoryQueue.end(),
-        [&oldest](const ProcessInfo& process) {
-            return process.processName == oldest;
-        });  
+    {
+        std::unique_lock<std::mutex> lock(queueMutex);
 
-    if (it != memoryQueue.end()) {
-        ProcessInfo processToDealloc = *it;
-        memoryQueue.erase(it);
-        return deallocMemory(processToDealloc);
+        for (auto iter = memoryQueue.begin(); iter != memoryQueue.end(); ++iter) {
+            if (iter->processName == oldest) {
+                ProcessInfo processToDealloc = *iter;
+                memoryQueue.erase(iter);
+                return deallocMemory(processToDealloc);
+            }
+        }
     }
 
     return false;
@@ -159,13 +160,11 @@ void Scheduler::clearJsonFile(const std::string& fileName) {
     json emptyArray = json::array();
     file << emptyArray.dump();
     file.close();
-
-    std::cout << "[DEBUG] JSON file cleared: " << fileName << std::endl;
 }
 
 bool Scheduler::writeBackingStore(const ProcessInfo& process) {
     try {
-        //std::unique_lock<std::mutex> lock(queueMutex);
+        std::unique_lock<std::mutex> lock(fileMutex);
 
         std::ifstream readFile("Backing_Store.json");
         if (!readFile.is_open()) { throw std::runtime_error("Failed to open Backing_Store.json."); }
@@ -191,7 +190,8 @@ bool Scheduler::writeBackingStore(const ProcessInfo& process) {
         updateFile << BS_process.dump(4);
         updateFile.close();
 
-        return logBackingStore(process, "[Stored]");
+        return true;
+        //logBackingStore(process, "[Stored]");
     } 
     catch (const std::runtime_error& e) {
         std::cerr << "[ERROR] " << e.what() << std::endl;
@@ -207,7 +207,7 @@ ProcessInfo Scheduler::readBackingStore() {
     if (!fs::file_size(filePath) || !processQueue.empty()) { return restoredProcess; }
 
     try {
-        //std::unique_lock<std::mutex> lock(queueMutex);
+        std::unique_lock<std::mutex> lock(fileMutex);
 
         std::ifstream readFile("Backing_Store.json");
         if (!readFile.is_open()) { throw std::runtime_error("Failed to open Backing_Store.json."); }
@@ -238,14 +238,13 @@ ProcessInfo Scheduler::readBackingStore() {
         updateFile << BS_process.dump(4);
         updateFile.close();
 
-        logBackingStore(restoredProcess, "[Retrieved]");
+        //logBackingStore(restoredProcess, "[Retrieved]");
         return restoredProcess;
     }
     catch (const std::runtime_error& e) {
-        std::cerr << "[ERROR] " << e.what() << std::endl;
-        ProcessInfo restoredProcess(0, std::string(), std::string(), 0, 0, 0, false);
-        return restoredProcess;
+        std::cerr << "[ERROR] " << e.what() << std::endl;        
     } 
+    return restoredProcess;
 }
 
 bool Scheduler::logBackingStore(const ProcessInfo& process, const std::string& action) {
@@ -264,7 +263,7 @@ bool Scheduler::logBackingStore(const ProcessInfo& process, const std::string& a
 
         logFile << logEntry.dump(4);
         logFile.close();
-        std::cout << "[DEBUG] " << action << " " << process.processName << std::endl;
+        //std::cout << "[DEBUG] " << action << " " << process.processName << std::endl;
         return true;
         
     }
@@ -278,7 +277,7 @@ bool Scheduler::logBackingStore(const ProcessInfo& process, const std::string& a
 void Scheduler::checkWaiting() {
     ProcessInfo process(0, "null", "null", 0, 0, 0, false);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(config.delaysPerExec));
 
     {
         std::unique_lock<std::mutex> lock(queueMutex);
@@ -393,63 +392,57 @@ void Scheduler::coreFunction(int coreId) {
 
 void Scheduler::Memoryreport(int cycle) {
     return;
-    //std::string folderName = "memory_reports";
+    std::string folderName = "memory_reports";
 
-    //fs::create_directory(folderName);
+    fs::create_directory(folderName);
 
-    //std::ostringstream filename;
+    std::ostringstream filename;
 
-    //filename << folderName << "/memory_stamp_" << cycle << ".txt";
+    filename << folderName << "/memory_stamp_" << cycle << ".txt";
 
-    //std::ofstream report(filename.str());
+    std::ofstream report(filename.str());
 
-    //if (!report.is_open()) return;
+    if (!report.is_open()) return;
 
-    //// Write the timestamp
-    //report << "======================================\n";
-    //report << "Timestamp: " << data.getTimestamp() << "\n";
+    report << "======================================\n";
+    report << "Timestamp: " << data.getTimestamp() << "\n";
 
-    //// Number of processes in memory
-    //report << "Number of processes in memory: " << procInMem << "\n";
+    report << "Number of processes in memory: " << procInMem << "\n";
 
-    //// Calculate total external fragmentation
-    //int freeMemory = 0;
-    //int externalFragmentation = 0;
-    //int currentFreeBlock = 0;
-    //for (const auto& frame : memoryPool) {
-    //    if (!frame.occupied) {
-    //        currentFreeBlock += config.frameMem;
-    //    }
-    //    else if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
-    //        externalFragmentation += currentFreeBlock;
-    //        currentFreeBlock = 0;
-    //    }
-    //}
-    //// Add last free block if it qualifies as external fragmentation
-    //if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
-    //    externalFragmentation += currentFreeBlock;
-    //}
-    //report << "Total external fragmentation in KB: " << (externalFragmentation / 1024) << "\n\n";
+    int freeMemory = 0;
+    int externalFragmentation = 0;
+    int currentFreeBlock = 0;
+    for (const auto& frame : memoryPool) {
+        if (!frame.occupied) {
+            currentFreeBlock += config.frameMem;
+        }
+        else if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
+            externalFragmentation += currentFreeBlock;
+            currentFreeBlock = 0;
+        }
+    }
 
-    //// Print the memory layout in ASCII format
-    //report << "----end---- = " << config.overallMem << "\n";
-    //int address = config.overallMem;
-    //for (int i = memoryPool.size() - 1; i >= 0; i -= (memoryPool.size()/4)) {
-    //    if (memoryPool[i].occupied) {
-    //        report << "\n" << address << "\nP" << memoryPool[i].procName;
-    //    }
-    //    else {
-    //        report << "\n" << address << "\n";
-    //    }
-    //    address -= config.procMem;
-    //}
+    if (currentFreeBlock > 0 && currentFreeBlock < config.procMem) {
+        externalFragmentation += currentFreeBlock;
+    }
+    report << "Total external fragmentation in KB: " << (externalFragmentation / 1024) << "\n\n";
 
-    //report << "\n----start---- = 0\n";
-    //report << "======================================\n";
+    report << "----end---- = " << config.overallMem << "\n";
+    int address = config.overallMem;
+    for (int i = memoryPool.size() - 1; i >= 0; i -= (memoryPool.size() / 4)) {
+        if (memoryPool[i].occupied) {
+            report << "\n" << address << "\nP" << memoryPool[i].procName;
+        }
+        else {
+            report << "\n" << address << "\n";
+        }
+        address -= config.procMem;
+    }
 
-    //// Close file
-    //report.close();
+    report << "\n----start---- = 0\n";
+    report << "======================================\n";
 
+    report.close();
 }
 
 ProcessInfo& Scheduler::getProcess(const std::string& name) {

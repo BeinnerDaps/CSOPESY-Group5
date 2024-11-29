@@ -64,6 +64,11 @@ void Screen::enterProcessScreen(const ProcessInfo& process) {
 }
 
 
+//void Screen::processSMIView() {
+//    updateScreen("processSMIview");
+//
+//    "+-----------
+//}
 
 //void Screen::nvidiaSMIView(const vector<Data::ProcessInfo>& processes) {
 //    updateScreen("nvidiaSMIview");
