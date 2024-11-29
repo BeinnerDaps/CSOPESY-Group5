@@ -32,12 +32,13 @@ private:
     const std::string commandList = R"(
     Available Commands:
 
+        initialize      - intialize with "config.txt"
         marquee         - Makes a marquee program  (optional: <refresh rate> <poll rate>)
         screen          - Starts a new window within the screen
                         - -s <name>: start a new screen given a name
                         - -r <name>: open a currently existing screen
                         - -ls : lists all screen processes
-        nvidia-smi      - Display Nvidia processes
+        process-smi     - Display Nvidia processes
         scheduler-test  - Does something for scheduler-test
         scheduler-stop  - Does something for scheduler-stop
         report-util     - Does something for report-util
