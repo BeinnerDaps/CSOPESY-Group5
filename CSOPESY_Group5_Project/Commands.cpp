@@ -79,6 +79,7 @@ Config Commands::parseConfigFile(const std::string& filename) {
 void Commands::processCommand(const std::string& input) {
 
     const std::unordered_map<std::string, std::function<void(const std::string&)>> CommandActions = {
+        { "initialize", [this](const std::string& input) { initialize(input); } },
         { "marquee", [this](const std::string& input) { marqueeCommand(input); } },
         { "screen", [this](const std::string& input) { screenCommand(input); } },
         { "nvidia-smi", [this](const std::string&) { nvidsmiCommand(); } },
