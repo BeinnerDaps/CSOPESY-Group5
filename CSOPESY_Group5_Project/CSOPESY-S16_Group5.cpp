@@ -20,7 +20,7 @@ int main() {
     std::string configtxt = "config.txt";
 
     screen.menuView();
-    commands.initialize(configtxt);
+    std::cout << "Initialize: config.txt" << std::endl;
 
     // Main loop to continuously take in commands, until exit.
     while (true) {
